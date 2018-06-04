@@ -1,0 +1,63 @@
+/*******************************************************************************
+ * Menus styles
+ */
+ 
+table.menu {
+	width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th.menu {
+	border: 1px solid #bbbbea;
+	background-color: #eeeedf;
+	padding: 5px 5px 5px 5px ;
+}
+
+tr.menu {
+}
+
+td.menu {
+	border: 1px solid #bbbbea;
+	padding: 2px 5px 2px 5px ;
+}
+ 
+table.menu_table_1 {
+	border: hidden;
+	margin-left: auto;
+    margin-right: auto;
+    border-spacing: 0;
+}
+
+table.menu_table_2 {
+	width: 100%;
+	margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #999999;
+    border-spacing: 2px;
+    border-collapse: collapse;
+}
+
+th.menu_table_1 {
+}
+
+th.menu_table_2 {
+	background-color: #ddddff;
+    border: 1px solid #999999;
+	border-collapse: collapse;
+}
+
+tr.menu_table_1 {
+}
+
+tr.menu_table_2 {
+    border: 1px solid;
+}
+
+td.menu_table_1 {
+}
+
+td.menu_table_2 {
+    border: 1px solid #999999;
+    padding: 3px;
+}

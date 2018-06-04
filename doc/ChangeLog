@@ -1,0 +1,117 @@
+Version        Change
+----------- --------------------------------------------------------------
+
+1.0.1
+			- A lot of new functionalities. Let set this the starting point.
+
+1.0.2
+			- Corrected errors from previous versions.
+			- Gregory Depaix: Added french support (a lot of thanks)
+
+1.1.0
+			- Corrected errors from previous versions.
+			- Gregory Depaix: Adapted the french language file (thanks again).
+			- New discoverer tool to get automatically hosts and services.
+			- New functionality for users to receive daily new about
+			  vulnerabilities.
+
+1.3.0b
+			- Corrected errors found from previous versions.
+
+			- SIGVI begins to adapt the SCAP standard (http://nvd.nist.gov/scap.cfm)
+			  * CVE, Adapted XML version 2 from NVD, now stable.
+			  * CVSS, uses CVSS vector, but currently in beta status
+			- New source plugin for new NVD XML V1.2 files
+			- Integration with NSDi discoverer, alpha version
+			- Daily Vulnerability report
+			- Filters for daily report and server vulnerabilities
+
+1.3.01b
+			- New logos, changed to png format.
+
+1.3.02b
+			- Important changes on basic structures
+			- PHP Lib upgraded
+			- Updates of French translation from Gregory Depaix (thanks again)
+			- my_include/conf/app.conf.php, to set custom application configuration (PHP Forms lib)
+			- Allow definition of what to do on server deletion.
+			- added fckeditor v2.5.1
+
+			Bugs fixed:
+			- Corrected error with product lookup at server-products page.
+			- Various errors on fields code.
+			- Changed field bug_description on table bug to text.
+			- bugs management various errors.
+
+1.4.05b RC1
+			- Made compliance with CVSS vector of vulnerabilities
+			- Improved reports and new functionalities added
+			
+			Bugs fixed:
+			- XSS Vulnerability corrected (thanks to Christian King)
+
+1.9.06 RC2
+			- Improved forms library
+			- CPE Products dictionary compatibility
+			- Fixed some problems on the installation process and
+			  CLI interface. (thanks to Stephane Grundschober)
+
+			More bugs fixed
+			
+1.9.09 RC3
+
+Special thanks to Stephane Grundschober, for deep testing and improvements.
+Has made an special efford on changing functionalities and process design to
+improve the architecture and adapt processes with SCAP, specially with CPE
+integration.
+
+			- Avoid SQL Injection from detail calls on the field
+			class. (Thanks to Sylvain Meras).
+			- Patchs applyed on:
+			  . task manager
+			  . reports
+			  . application cron launcher
+			  . RSS parser
+			  . report graphs
+
+			- Extract SIGVI internal definitions like high/med
+			thresholds to applicaction parameters
+			- Default FAS formula changed for correct behavior
+			- Changes involving products matching and CPE
+			- Alerts table deleted on update column constraint
+			- Add possibility to order by columns on
+			datawindow_ext class
+			
+			More bugs fixed
+
+1.9.11 RC3
+
+			- Added new functionalities to datawindow_ext class,
+			to allow order by field headers, or create selection
+			group actions.
+
+			Improved integration with NSDi, some new
+			funcionalities added:
+			- Massive servers import process
+			- Import at once of group of services
+			- Save previous relations between remote NSDi services
+			and local produts, for usual associations.
+			
+
+1.9.12 RC3
+			- Improvements on POST security on datawindow objects
+			- Shadowed row ids to avoid forms manual modifications
+			- Fix SQL Injection vulnerability
+
+2.0.0
+			- Hoping to be stable...
+
+
+Now working on
+--------------------------------------------------------------------------
+
+- Integrate SIGVI on SCAP methodology, with as many standards as needed.
+  * CVSS: finish integration
+  * CCE, CPE, XCCDF, OVAL: study the needing and define integration
+
+- Finish integration with NSDi project (under development)

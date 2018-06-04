@@ -1,0 +1,110 @@
+<?php
+/*
+	Author: Sebastian Gomez, (tiochan@gmail.com)
+	For: Politechnical University of Catalonia (UPC), Spain.
+
+	Global page header.
+	Be careful, changing this file will change the global page design.
+*/
+
+global $MESSAGES;
+global $USER_LEVEL;
+global $USER_LEVEL_NAME;
+global $USER_GROUP;
+global $USER_GROUP_NAME;
+global $tpl_title;
+global $tpl_info_page;
+
+
+?>				<!-- MAIN TABLE -->
+				<table class="main">
+					<tr valign="middle">
+						<td width="65">
+<?php					if(strstr($_SERVER["PHP_SELF"],"login.php")===false and strstr($_SERVER["PHP_SELF"],"logout.php")===false) { ?>
+							<div>
+								<a title="<?php echo $MESSAGES["APP_HOME"]; ?>" href="<?php echo HOME; ?>/index.php">
+									<img src="<?php echo HOME . APP_MINILOGO; ?>" border="0" hspace="7px" vspace="6px">
+								</a>
+							</div>
+<?php					} ?>
+						</td>
+						<!-- PAGE TITLE -->
+<?php				if(strstr($_SERVER["PHP_SELF"],"login.php")===false and strstr($_SERVER["PHP_SELF"],"logout.php")===false) { ?>
+						<td align="left">
+							<div>
+					      		<h2 class='title'><?php echo $MESSAGES["APP_NAME"] ?></h2>
+					      	</div>
+						</td>
+<?php				}?>
+						<!-- USER INFO -->
+						<td valign="middle" align="right">
+<?php						if(isset($_SESSION[APP_NAME . '_logged']) and ($_SESSION[APP_NAME . '_logged']==true) and (strstr($_SERVER["PHP_SELF"],"show_info.php")===false)) { ?>
+							<div align="right">
+<?php							if($tpl_info_page != "") {?>
+									<a href='#' onclick="openMyWindow('<?php echo HOME ?>/show_info.php?info_page=<?php echo $tpl_info_page ?>',600,500)"'><img class='toolbar' alt='Info' title='Info' src='<?php echo ICONS ?>/question.png'></img></a>
+<?php							} ?>
+<?php							if(defined("BUG_TRACKING") and BUG_TRACKING) { ?>
+									<a href='<?php echo HOME ?>/tools/bugs.php'><img alt='<?php echo $MESSAGES["BUG_REPORT"]; ?>' title='<?php echo $MESSAGES["BUG_REPORT"]; ?>' class='toolbar' src='<?php echo ICONS . "/bug.png"; ?>'></a>
+<?php							} ?>
+								<a href="<?php echo HOME; ?>/logout.php"><img class='toolbar' alt='<?php echo $MESSAGES["AUTH_LOGOUT"]; ?>' title='<?php echo $MESSAGES["AUTH_LOGOUT"]; ?>' src='<?php echo ICONS . "/exit.png";?>'></a>
+							</div>
+							<div align="right" class="user_info">
+								<?php
+									echo "<b>" . $MESSAGES["APP_LOGIN_USERNAME"] . ":</b> " . $_SESSION[APP_NAME . '_username'] .
+										 ", <b>" . $MESSAGES["APP_USER_LEVEL"] . ": </b>" . $USER_LEVEL_NAME .
+										 ", <b>" . $MESSAGES["GROUP"] . ": </b>" . $USER_GROUP_NAME;?>
+							</div>
+<?php						} ?>
+						</td>
+					</tr>
+
+<?php				if(defined("DEVELOPMENT") and DEVELOPMENT) { ?>
+					<!-- UNDER CONSTRUCTION BAR -->
+					<tr background="<?php echo ICONS . "/construction.png"; ?>">
+						<td colspan="3" background="<?php echo ICONS . "/construction.png"; ?>"></td>
+					</tr>
+<?php				} ?>
+
+<?php				if(strstr($_SERVER["PHP_SELF"],"login.php")===false and strstr($_SERVER["PHP_SELF"],"logout.php")===false and strstr($_SERVER["PHP_SELF"],"show_info.php")===false and
+						!(defined("SHOW_MENU") and SHOW_MENU == false)
+					) {
+
+						$file1= MY_INC_DIR . "/menus/my_main_menu.class.php";
+						$file2= INC_DIR . "/menus/main_menu.class.php";
+
+						if(file_exists($file1)) {
+							$file= $file1;
+							$menu_class= "my_main_menu";
+						} else {
+							$file= $file2;
+							$menu_class= "main_menu";
+						}
+						if($file != "") {?>
+					<!-- MENU BAR -->
+					<tr>
+						<td colspan='3'>
+							<div id='main_menu' style='display:none'>
+<?php						include_once $file;
+							$main_menu= new $menu_class();
+							$main_menu->show();
+						}?>
+							</div>
+						</td>
+					</tr>
+<?php				}
+					if($tpl_title!="") {?>
+					<tr class='message'>
+						<!-- PAGE TITLE -->
+						<td align="left" colspan="3" style='border-bottom: 1px solid #aaddaa;'>
+					      	<h2 class='page_title' align="left"><?php echo $tpl_title; ?></h2>
+						</td>
+					</tr>
+<?php						} ?>
+					<tr>
+						<td align="CENTER" valign="TOP" colspan="3">
+						<center>
+							<!-- PAGE CONTENTS TABLE -->
+							<table border="0" cellspacing="10" cellpadding="1">
+								<tr>
+									<td>
+										<div id='main_table_content' style='display:block'>

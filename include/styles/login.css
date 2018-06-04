@@ -1,0 +1,11 @@
+html {
+    background: url("../images/background-login.jpg") no-repeat center center fixed;
+    height: 100%;
+}
+
+body {
+    background-color: transparent;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
