@@ -37,6 +37,5 @@
 
 	$menu->show();
 
-
 	html_footer();
 ?>
