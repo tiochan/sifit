@@ -20,7 +20,7 @@
 	end_session();
 
 	html_header("");
-	html_showLogo();
+//	html_showLogo();
 ?>
 		<br>
 		<br>

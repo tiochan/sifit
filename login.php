@@ -35,7 +35,6 @@
 
 ?>
 		<center><h1><?php echo $MESSAGES["APP_NAME"]; ?></h1></center>
-		<center><h3><?php echo $MESSAGES["APP_LOGIN_TITLE"]; ?></h3></center>
 		<center><font color=red><?php echo $error; ?></font></center>
 		<br>
 		<br>
@@ -43,19 +42,20 @@
 			<table border=0 align="center">
 				<tr>
 					<td>
-<?php html_showLogo(false); ?>
-					</td>
-					<td>
 						<table border=0 align="center">
-							<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text name="username" value="<?php echo $username; ?>"></td></tr>
+							<tr><td colspan=2><h2><?php echo $MESSAGES["APP_LOGIN_TITLE"]; ?></h2></td></tr>
+							<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text id="username" name="username" value="<?php echo $username; ?>" /></td></tr>
 							<tr><td>
-								<?php echo $MESSAGES["APP_LOGIN_PASSWORD"] ?></td><td><input type=password name="password">
+								<?php echo $MESSAGES["APP_LOGIN_PASSWORD"] ?></td><td><input type=password name="password" />
 								<input type="hidden" name="next_page" value="<?php echo $next_page; ?>">
 								<input type="hidden" name="first_time" value="0">
 							</td></tr>
 							<td><td>&nbsp;</td></tr>
 							<tr><td></td><td><input type="submit" value=<?php echo $MESSAGES["APP_ACCEPT"] ?>></td></tr>
 						</table>
+					</td>
+					<td>
+						<?php html_showLogo(false); ?>
 					</td>
 				</tr>
 			</table>
@@ -69,10 +69,9 @@
 		}
 		?>
 		</form>
-		<script language="JavaScript" type="text/javascript">
-		   document.forms.login.elements[0].focus();
-		</script>
 		<?php
+		global $GLOBAL_RECONFIGURE_PAGE;
+		$GLOBAL_RECONFIGURE_PAGE[]= "document.getElementById('username').focus();";
 	}
 
 	// Is already logged?

@@ -33,8 +33,8 @@
 	 ****************************************************/
 
 	global $MESSAGES;
-	html_header($MESSAGES["APP_NAME"]);
 
+	html_header($MESSAGES["APP_NAME"]);
 	$menu->show();
 
 	html_footer();
