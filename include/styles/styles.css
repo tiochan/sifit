@@ -39,7 +39,7 @@ div.cell  {
 div.main  {
     width: 90%;
     height: 90%;
-    border: dashed #aaa 1px;
+/*    border: solid #aaa 1px;*/
     padding: 2px;
     border-spacing: 0;
     border-collapse: collapse;
@@ -61,7 +61,14 @@ div.page_header  {
 }
 
 div.app_logo  {
-    padding-bottom: 32px;
+    /*padding-bottom: 32px;*/
+}
+
+img.app_logo {
+    width: 48px;
+    border: 0px;
+    /*margin: 5px 5px 5px 5px;*/
+    /*hspace="7px" vspace="6px"*/
 }
 
 div.app_name  {
@@ -935,13 +942,6 @@ div.header_logo {
 div.header_title {
     display: inline-block;
     vertical-align: top
-}
-
-img.header_logo {
-    width: 50px;
-    border: 0px;
-    /*margin: 5px 5px 5px 5px;*/
-    /*hspace="7px" vspace="6px"*/
 }
 
 input {

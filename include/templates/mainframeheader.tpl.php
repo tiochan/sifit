@@ -26,7 +26,7 @@ global $tpl_info_page;
                 <!-- HEADER LOGO -->
                 <div class="cell page_header app_logo">
                     <a title="<?php echo $MESSAGES["APP_HOME"]; ?>" href="<?php echo HOME; ?>/index.php">
-                        <img class='header_logo' src="<?php echo HOME . APP_MINILOGO; ?>">
+                        <img class='app_logo' src="<?php echo HOME . APP_MINILOGO; ?>">
                     </a>
                 </div>
 

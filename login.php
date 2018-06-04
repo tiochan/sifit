@@ -17,7 +17,6 @@
 	}
 
 
-
 	$login_result=false;
 
 	if(isset($_POST["next_page"])) {
@@ -34,22 +33,31 @@
 		global $MESSAGES;
 		global $next_page;
 
-		html_showLogo(false);
-		?>
+?>
+		<center><h1><?php echo $MESSAGES["APP_NAME"]; ?></h1></center>
 		<center><h3><?php echo $MESSAGES["APP_LOGIN_TITLE"]; ?></h3></center>
 		<center><font color=red><?php echo $error; ?></font></center>
 		<br>
 		<br>
 		<form name="login" action=<?php echo $_SERVER["PHP_SELF"]; ?> method="post">
 			<table border=0 align="center">
-				<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text name="username" value="<?php echo $username; ?>"></td></tr>
-				<tr><td>
-					<?php echo $MESSAGES["APP_LOGIN_PASSWORD"] ?></td><td><input type=password name="password">
-					<input type="hidden" name="next_page" value="<?php echo $next_page; ?>">
-					<input type="hidden" name="first_time" value="0">
-				</td></tr>
-				<td><td>&nbsp;</td></tr>
-				<tr><td></td><td><input type="submit" value=<?php echo $MESSAGES["APP_ACCEPT"] ?>></td></tr>
+				<tr>
+					<td>
+<?php html_showLogo(false); ?>
+					</td>
+					<td>
+						<table border=0 align="center">
+							<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text name="username" value="<?php echo $username; ?>"></td></tr>
+							<tr><td>
+								<?php echo $MESSAGES["APP_LOGIN_PASSWORD"] ?></td><td><input type=password name="password">
+								<input type="hidden" name="next_page" value="<?php echo $next_page; ?>">
+								<input type="hidden" name="first_time" value="0">
+							</td></tr>
+							<td><td>&nbsp;</td></tr>
+							<tr><td></td><td><input type="submit" value=<?php echo $MESSAGES["APP_ACCEPT"] ?>></td></tr>
+						</table>
+					</td>
+				</tr>
 			</table>
 		<?php
 		if(defined("DEMO_VERSION") && DEMO_VERSION) {
