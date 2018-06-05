@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 $MESSAGES["APP_ALIAS"]="BI4IT";
-$MESSAGES["APP_NAME"]="Business Intelligence for IT";
+$MESSAGES["APP_NAME"]="SysOps Intelligence for IT";
 $MESSAGES["REGISTER_SUCCESS"]="";
 
 $MESSAGES["ABOUT_APP"]="<p>" . $MESSAGES["APP_ALIAS"] . " es un producto de UPCnet S.L.</p>";

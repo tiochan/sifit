@@ -36,10 +36,10 @@ define("HOME","/reports");                                       // EDIT
 define("SERVER_URL","http://localhost");                         // EDIT
 
 define("ADM_EMAIL","Sebastian Gomez <tiochan@gmail.com>");      // EDIT
-define("APP_NAME","BI4IT");
+define("APP_NAME","SIFIT");
 
-define("APP_DESCRIPTION","Business Intelligence 4 IT");
-define("APP_VERSION","Business Intelligence For IT, 1.5.01 Beta");
+define("APP_DESCRIPTION","Sysops Intelligence For IT");
+define("APP_VERSION","SIFIT - SysOps Intelligence For IT, 1.5.01 Beta");
 
 
 /*******************************************************************************

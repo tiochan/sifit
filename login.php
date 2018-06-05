@@ -15,7 +15,7 @@
 		require_once MY_INC_DIR . "/my_login.php";
 		exit;
 	}
-
+	
 
 	$login_result=false;
 
@@ -44,7 +44,7 @@
 					<td>
 						<table border=0 align="center">
 							<tr><td colspan=2><h2><?php echo $MESSAGES["APP_LOGIN_TITLE"]; ?></h2></td></tr>
-							<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text id="username" name="username" value="<?php echo $username; ?>" /></td></tr>
+							<tr><td><?php echo $MESSAGES["APP_LOGIN_USERNAME"] ?></td><td><input type=text name="username" value="<?php echo $username; ?>" /></td></tr>
 							<tr><td>
 								<?php echo $MESSAGES["APP_LOGIN_PASSWORD"] ?></td><td><input type=password name="password" />
 								<input type="hidden" name="next_page" value="<?php echo $next_page; ?>">
@@ -69,9 +69,10 @@
 		}
 		?>
 		</form>
-		<?php
-		global $GLOBAL_RECONFIGURE_PAGE;
-		$GLOBAL_RECONFIGURE_PAGE[]= "document.getElementById('username').focus();";
+		<script language="JavaScript" type="text/javascript">
+		   document.forms.login.elements[0].focus();
+		</script>
+<?php
 	}
 
 	// Is already logged?

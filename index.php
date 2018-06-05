@@ -13,7 +13,11 @@
 
 	include_once "include/init.inc.php";
 	include_once "include/menu.inc.php";
+	include_once INC_DIR . "forms/forms.inc.php";
+	include_once INC_DIR . "forms/form_elements/form_report.inc.php";
 
+
+	
 
 	/****************************************************
 	 *  TODO MENU
@@ -34,8 +38,13 @@
 
 	global $MESSAGES;
 
-	html_header($MESSAGES["APP_NAME"]);
-	$menu->show();
+	html_header("");
+//	$menu->show();
+$main_page= new form_report("MAIN_PAGE");
+
+$frm=new form("main_page");
+$frm->add_element($main_page);
+$frm->form_control();
 
 	html_footer();
 ?>
