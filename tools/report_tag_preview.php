@@ -35,7 +35,7 @@
 
 	global $global_db, $USER_LEVEL;
 
-	html_header("Tag preview");
+	if(get_http_param("show_header","false")=="true") html_header("Tag preview");
 
 	$tag_id= get_http_param("detail_tag_id",false);
 	if($tag_id === false) {
@@ -66,11 +66,12 @@
 	if($USER_LEVEL != 0 and $tag->is_public != 1) {
 		html_showError("** Not allowed to see this tag **", true);
 	} else {
-		echo "<br><p><b>Showing preview for tag</b>: $tag_name</p>";
-		echo "<p>(Shown between horizontal lines)</p><br><hr>";
 		$content= $tag->get_value();
+		if(get_http_param("show_header","false")=="true") {
+			echo "<br><p><b>Showing preview for tag</b>: $tag_name</p>";
+			echo "<p>(Shown after horizontal line)</p><br><hr>";			
+		}
 		echo $content;
-		echo "<hr>";
 	}
 
 	html_footer();

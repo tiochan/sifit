@@ -1,43 +1,25 @@
 <?php
 /**
- * @author Jorge Novoa (jorge.novoa@upcnet.es)
- * For: Politechnical University of Catalonia (UPC), Spain.
+ * @author Sebastian Gomez (tiochan@gmail.com)
  *
  * @package lib
- * @subpackage conf
+ * @subpackage reports
  *
- * Datawindow class for parameters management.
+ * Report render tool
+ *
  */
-
-/*
-	Table definition
-
-	+-------------+--------------+------+-----+---------+----------------+
-	| Field       | Type         | Null | Key | Default | Extra          |
-	+-------------+--------------+------+-----+---------+----------------+
-	| id_report   | mediumint(9) | NO   | PRI | NULL    | auto_increment |
-	| report_name | varchar(60)  | YES  | MUL | NULL    |                |
-	| id_group    | mediumint(9) | YES  |     | NULL    |                |
-	| content     | text         | YES  |     | NULL    |                |
-	| periodicity | tinyint(1)   | YES  |     | NULL    |                |
-	+-------------+--------------+------+-----+---------+----------------+
-
-
-*/
-
 
 	$AUTH_REQUIRED=true;
 	$AUTH_LVL=5;			// ADMINS ONLY
 
 	define("SHOW_MENU",false);
-
+	
 	include_once "../include/init.inc.php";
 	include INC_DIR . "/reports/reports.class.php";
 
 	global $USER_LEVEL, $USER_GROUP, $MESSAGES;
 
-	html_header($MESSAGES["REPORT_PREVIEW"]);
-
+	if(get_http_param("show_header",false)=="true") html_header($MESSAGES["REPORT_PREVIEW"]);
 
 	$report_id= get_http_param("id_report",false);
 	if($report_id === false) {

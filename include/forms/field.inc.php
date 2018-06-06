@@ -514,7 +514,7 @@
 		}
 
 		function get_value($initial_value, $for_show=true) {
-
+			
 			$add= $this->new_window ? "1" : "0";
 
 			if($for_show) {

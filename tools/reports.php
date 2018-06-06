@@ -1,10 +1,11 @@
 <?php
 /**
- * @author Jorge Novoa (jorge.novoa@upcnet.es)
- * For: Politechnical University of Catalonia (UPC), Spain.
+ * @author Sebastian Gomez (tiochan@gmail.com)
  *
- * @package sigvi
+ * @package lib
  * @subpackage reports
+ *
+ * Dashboards and reports management
  *
  */
 
@@ -16,6 +17,7 @@
 
 	include_once INC_DIR . "/forms/forms.inc.php";
 	include_once INC_DIR . "/forms/form_elements/tab.inc.php";
+	include_once INC_DIR . "/classes/dw_dashboards.class.php";
 	include_once INC_DIR . "/classes/dw_reports.class.php";
 	include_once INC_DIR . "/classes/dw_report_tags.class.php";
 	include_once INC_DIR . "/classes/dw_report_subscriptions.class.php";
@@ -24,10 +26,15 @@
 
 	$tab= new tab_box("tab_1");
 
-	$tb_subscriptions= new tab("tab_report_subscriptions",$MESSAGES["SUBSCRIPTIONS_MGM_TITLE"]);
+	$tb_dashboards= new tab("tab_dashboards","Dashboards");
+	$dw_dashboards= new dw_dashboards();
+	$tb_dashboards->add_element($dw_dashboards);
+	$tab->add_tab($tb_dashboards);
+
+	$tb_dashboards= new tab("tab_report_subscriptions",$MESSAGES["SUBSCRIPTIONS_MGM_TITLE"]);
 	$dw_subscriptions= new dw_report_subscriptions();
-	$tb_subscriptions->add_element($dw_subscriptions);
-	$tab->add_tab($tb_subscriptions);
+	$tb_dashboards->add_element($dw_subscriptions);
+	$tab->add_tab($tb_dashboards);
 
 	$tb_reports= new tab("tab_reports",$MESSAGES["REPORT_MGM_TITLE"]);
 	$dw_reports= new dw_reports();

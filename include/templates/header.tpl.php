@@ -22,8 +22,8 @@ global $MAINTENANCE_ALLOWED_HOSTS;
 	<head>
 		<title><?php echo $MESSAGES["APP_NAME"]; ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<meta name="description" content="<?php echo HTML_HEADER_DESCRIPTION; ?>" />
-		<meta name="keywords" content="<?php echo HTML_HEADER_KEYWORD; ?>" />
+		<meta name="description" content="<?php if(defined("HTML_HEADER_DESCRIPTION")) echo HTML_HEADER_DESCRIPTION; ?>" />
+		<meta name="keywords" content="<?php if(defined("HTML_HEADER_KEYWORD")) echo HTML_HEADER_KEYWORD; ?>" />
 		<link rel='stylesheet' type='text/css' href='<?php echo HOME ; ?>/include/styles/styles.css' />
 <?php if(file_exists(MY_INC_DIR . "/styles/styles.css")) { ?>
 		<link rel='stylesheet' type='text/css' href='<?php echo HOME ; ?>/my_include/styles/styles.css' />
