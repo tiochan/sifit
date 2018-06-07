@@ -12,21 +12,32 @@
 /*
 	Table definition
 
-	+-------------+--------------+------+-----+---------+----------------+
-	| Field       | Type         | Null | Key | Default | Extra          |
-	+-------------+--------------+------+-----+---------+----------------+
-	| id_report   | mediumint(9) | NO   | PRI | NULL    | auto_increment |
-	| report_name | varchar(60)  | YES  | MUL | NULL    |                |
-	| id_group    | mediumint(9) | YES  |     | NULL    |                |
-	| content     | text         | YES  |     | NULL    |                |
-	| periodicity | tinyint(1)   | YES  |     | NULL    |                |
-	+-------------+--------------+------+-----+---------+----------------+
-
+	+--------------+--------------+------+-----+---------+----------------+
+	| Field        | Type         | Null | Key | Default | Extra          |
+	+--------------+--------------+------+-----+---------+----------------+
+	| id_tag       | mediumint(9) | NO   | PRI | NULL    | auto_increment |
+	| tag_name     | varchar(60)  | NO   | UNI | NULL    |                |
+	| calc_method  | varchar(60)  | YES  |     | NULL    |                |
+	| description  | varchar(255) | YES  |     | NULL    |                |
+	| value        | text         | YES  |     | NULL    |                |
+	| extrainfo    | text         | YES  |     | NULL    |                |
+	| connection   | varchar(255) | YES  |     | NULL    |                |
+	| is_public    | tinyint(1)   | NO   |     | 1       |                |
+	| id_user      | mediumint(9) | YES  |     | NULL    |                |
+	| id_group     | mediumint(9) | YES  |     | NULL    |                |
+	| is_protected | tinyint(1)   | NO   |     | 0       |                |
+	+--------------+--------------+------+-----+---------+----------------+
 
 */
 
 	$AUTH_REQUIRED=true;
 	$AUTH_LVL=5;			// ADMINS ONLY
+
+	include_once "../include/functions.php";	
+
+	$show_header_param= get_http_param("show_header","false");
+	$show_header= ($show_header_param == "true");
+	if(!$show_header) define("QUIET",true);
 
 	define("SHOW_MENU",false);
 
@@ -34,33 +45,41 @@
 	include INC_DIR . "/reports/reports.class.php";
 
 	global $global_db, $USER_LEVEL;
+	
+	if($show_header) html_header("Tag preview");
 
-	if(get_http_param("show_header","false")=="true") html_header("Tag preview");
 
 	$tag_id= get_http_param("detail_tag_id",false);
 	if($tag_id === false) {
-		$tag_id= get_http_param("detail_tag_id", false);
-		if($tag_id === false) {
+		$tag_name= get_http_param("detail_tag_name",false);
+		if($tag_name === false) {
 			html_showError("** Tag id expected **", true);
 			html_footer();
 			exit;
+		} else {
+			$query="select tag_name from report_tags where tag_name='$tag_name'";
 		}
+	} else {
+		$query="select tag_name from report_tags where id_tag='$tag_id'";
 	}
 
-	$query="select tag_name from report_tags where id_tag='$tag_id'";
 	$res= $global_db->dbms_query($query);
 
 	if(!$global_db->dbms_check_result($res)) {
 		html_showError("** Tag id not found **", true);
-		html_footer();
+		if($show_header) html_footer();
 		exit;
 	}
 
 	list($tag_name)= $global_db->dbms_fetch_row($res);
 	$global_db->dbms_free_result($res);
 
-
 	$tag= new tag($tag_name);
+	
+	$parameters= get_http_params();
+	foreach($parameters as $parameter => $value) {
+		$tag->add_parameter($parameter, $value);
+	}
 
 	// Report access: only generic (id_group is null) and own group reports
 	if($USER_LEVEL != 0 and $tag->is_public != 1) {
@@ -74,5 +93,5 @@
 		echo $content;
 	}
 
-	html_footer();
+	if($show_header) html_footer();
 ?>

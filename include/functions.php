@@ -28,6 +28,11 @@ function number_unformat($formatted_number) {
     return $aux;
 }
 
+function get_http_params() {
+
+	return array_merge($_POST, $_GET);
+}
+
 function get_http_param($parm_name, $default_value= null) {
 
     $ret= get_http_post_param($parm_name, false);

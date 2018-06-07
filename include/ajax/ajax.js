@@ -107,6 +107,7 @@ function getHTTPObject(){
  * @param string parameters, to add to the URL call
  */
 function doWorkGET(origin, destination, parameters){
+
     if (parameters.length==0) {
         ajax_hide_div(destination);
         return;
@@ -258,6 +259,12 @@ function ajax_get_response(webService, params, sync) {
     if(sync) $.ajaxSetup({async:true});
 
     return result;
+}
+
+function ajax_set_timeout(callback_function, timeout) {
+	// Call function
+	window[callback_function]();
+	setTimeout(ajax_set_timeout, timeout, callback_function, timeout); // 2000 milliseconds = 2 seconds
 }
 
 var httpObject = null;

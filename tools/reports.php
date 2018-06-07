@@ -31,15 +31,15 @@
 	$tb_dashboards->add_element($dw_dashboards);
 	$tab->add_tab($tb_dashboards);
 
-	$tb_dashboards= new tab("tab_report_subscriptions",$MESSAGES["SUBSCRIPTIONS_MGM_TITLE"]);
-	$dw_subscriptions= new dw_report_subscriptions();
-	$tb_dashboards->add_element($dw_subscriptions);
-	$tab->add_tab($tb_dashboards);
-
 	$tb_reports= new tab("tab_reports",$MESSAGES["REPORT_MGM_TITLE"]);
 	$dw_reports= new dw_reports();
 	$tb_reports->add_element($dw_reports);
 	$tab->add_tab($tb_reports);
+
+	$tb_reports_subscriptions= new tab("tab_report_subscriptions",$MESSAGES["SUBSCRIPTIONS_MGM_TITLE"]);
+	$dw_subscriptions= new dw_report_subscriptions();
+	$tb_reports_subscriptions->add_element($dw_subscriptions);
+	$tab->add_tab($tb_reports_subscriptions);
 
 	$tb_tags= new tab("tab_tags",$MESSAGES["TAGS_MGM_TITLE"]);
 	$dw_tags= new dw_report_tags();
