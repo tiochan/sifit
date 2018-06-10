@@ -261,10 +261,15 @@ function ajax_get_response(webService, params, sync) {
     return result;
 }
 
-function ajax_set_timeout(callback_function, timeout) {
+/**
+ * timeout in miliseconds
+ */
+function ajax_set_timeout(callback_function, timeout, callbackagain) {
+
 	// Call function
 	window[callback_function]();
-	setTimeout(ajax_set_timeout, timeout, callback_function, timeout); // 2000 milliseconds = 2 seconds
+	
+	if(callbackagain) setTimeout(ajax_set_timeout, timeout, callback_function, timeout, callbackagain);
 }
 
 var httpObject = null;

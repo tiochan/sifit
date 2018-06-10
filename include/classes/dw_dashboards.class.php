@@ -29,7 +29,7 @@
 	include_once INC_DIR . "/forms/form_elements/datawindow.inc.php";
 	include_once INC_DIR . "/forms/form_elements/search_box.inc.php";
 	include_once INC_DIR . "/classes/dw_report_tags.class.php";
-	include_once INC_DIR . "/include/ajax/include_ajax.inc.php";
+	include_once INC_DIR . "/ajax/include_ajax.inc.php";
 
 
 	class dw_dashboards extends datawindow {
@@ -62,7 +62,7 @@
 
 			$restriction= ($USER_LEVEL > 0) ? "((id_group= $USER_GROUP) or (id_group is null))" : "";
 
-			$sb= new search_box(array($fields[1],$fields[4],$fields[5]),"dashboard_search",$MESSAGES["SEARCH"]);
+			$sb= new search_box(array($fields[1],$fields[4]),"dashboard_search",$MESSAGES["SEARCH"]);
 
 			$can_insert= ($USER_LEVEL <= 3);
 			$can_update= ($USER_LEVEL <= 5);

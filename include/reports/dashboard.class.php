@@ -13,7 +13,7 @@
 <?php
 
 	include_once INC_DIR . "/reports/tags.class.php";
-	include_once INC_DIR . "/include/ajax/include_ajax.inc.php";
+	include_once INC_DIR . "/ajax/include_ajax.inc.php";
 
 	class dashboard {
 
@@ -97,33 +97,49 @@
 				{
 					$aux= explode("|", $tag);
 					$tag_name= $aux[0];
-					if(count($aux) > 1) {
-						$parameters="&";
-						unset($aux[0]);
-						$parameters.= str_replace(",", "&", $aux[1]);
-					} else {
-						$parameters="";
-					}
-
+					$timeout= 0;
+					$parameters_array= array();
+					$parameters_str="";
 					$new_tag= "";
 					
-					$div_id= "dashboard_tag_id_" . $tag_counter;
-					$new_tag= "<div id='$div_id'></div>
-					<script>
-						function set_div_" . $div_id . "_value() {
-							var parameters;
-							
-							parameters=\"detail_tag_name=". $tag_name . "&show_header=false" . $parameters . "\";
-							doWorkGET('". SERVER_URL . "/" . HOME . "/tools/report_tag_preview.php', '" . $div_id . "', parameters);
+					if(count($aux) > 1) {
+						
+						$aux_parameters= explode(";", $aux[1]);
+						foreach($aux_parameters as $parameter) {
+							list($key, $value)= explode("=", $parameter);
+							$parameters_array[$key]=$value;
+							$key=strtolower($key);
+							if($key=="refresh_time") $timeout= $value;
 						}
+						
+						$parameters_str="&";
+						unset($aux[0]);
+						$parameters_str.= str_replace(";", "&", $aux[1]);
+					}
 
-						ajax_set_timeout(\"set_div_" . $div_id . "_value\", 5000)
-					</script>
-";
-/*					$tag_instance= new tag($tag);
+					if($timeout > 0) {
+						$div_id= "dashboard_tag_id_" . $tag_counter;
+						$new_tag= "$div_id $tag_counter
+							<div id='$div_id'></div>
+							<script>
+								function set_div_" . $div_id . "_value() {
+									var parameters;
+									parameters=\"detail_tag_name=". $tag_name . "&show_header=false" . $parameters_str . "\";
+									doWorkGET('". SERVER_URL . "/" . HOME . "/tools/report_tag_preview.php', '" . $div_id . "', parameters);
+								}
 
-					$new_tag= $tag_instance->get_value();
-*/
+								ajax_set_timeout(\"set_div_" . $div_id . "_value\", " . $timeout . ", 1);
+							</script>\n";
+
+					} else {
+						$tag_instance= new tag($tag);
+						
+						foreach($parameters_array as $key => $value) {
+							$tag_instance->add_parameter($key,$value);
+						}
+						$new_tag= $tag_instance->get_value();
+					}
+
 					//replace tag in content
 					$content=str_replace('{' . $tag . '}', $new_tag, $content);
 				}
