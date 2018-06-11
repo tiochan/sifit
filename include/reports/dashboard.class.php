@@ -119,8 +119,8 @@
 
 					if($timeout > 0) {
 						$div_id= "dashboard_tag_id_" . $tag_counter;
-						$new_tag= "$div_id $tag_counter
-							<div id='$div_id'></div>
+						$new_tag= "
+							<div id='$div_id' style='!style'></div>
 							<script>
 								function set_div_" . $div_id . "_value() {
 									var parameters;

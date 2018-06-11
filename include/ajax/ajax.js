@@ -68,7 +68,7 @@ function ajax_set_div_list_value(origin, div_id, value, selection_field_id) {
  * @param string div_id
  */
 function ajax_show_div(div_id) {
-    document.getElementById(div_id).style.border="1px solid #A5ACB2";
+//    document.getElementById(div_id).style.border="1px solid #A5ACB2";
     document.getElementById(div_id).style.display="block";
 }
 

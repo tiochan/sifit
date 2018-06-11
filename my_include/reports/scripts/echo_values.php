@@ -2,7 +2,8 @@
 
 	function echo_values() {
 
-		$values= array(300, 200, 550, 220, 1000, 1200 ,500);
+		//$values= array(300, 200, 550, 220, 1000, 1200 ,500);
+		$values= array(rand(10,1000), rand(10,1000), rand(10,1000), rand(10,1000), rand(10,1000), rand(10,1000), rand(10,1000));
 
 		$return= "";
 
