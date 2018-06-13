@@ -56,9 +56,9 @@ So, following this example:
 2.2.1. Get value for GET_USER_EMAIL. The get_value method is called for this tag instance, which is a query.
 
 The query tag will do the same, first look for other sub-TAGs:
-
+```
 	SELECT email FROM users WHERE id_user = '{USER_ID}'
-	
+```
 Contains a sub-tag called "USER_ID", which is a "System var", and is going to be replaced for its value (p.e. my user ID is 123). Then will execute the query:
 ```
 	SELECT email FROM users WHERE id_user = '123'
@@ -89,3 +89,4 @@ You can add yourselves inheriting the master class:
 - **And more...
 
 
+This product is still under development. Feel free to test yourself, and send any feedback.
