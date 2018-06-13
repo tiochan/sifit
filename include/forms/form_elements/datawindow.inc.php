@@ -305,6 +305,12 @@
 				return 1;
 			}
 
+			if($this->allow_save_and_continue) {
+				$this->show_update_form($row_id);
+				$this->recover_values_from_call($new_values);
+				return 1;
+			}
+
 			return 0;
 		}
 

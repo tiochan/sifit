@@ -724,10 +724,12 @@
 		function show_return_form() {
 			global $PHP_SELF;
 			global $MESSAGES;
+
+			$button_text= $this->allow_save_and_continue ? $MESSAGES["BUTTON_SAVE"] : $MESSAGES["BUTTON_ACCEPT"];
 ?>
 			<br>
 			<br>
-			<center><input type='button' class='action' value='<?php echo $MESSAGES["BUTTON_ACCEPT"]; ?>' onclick='document.forms.<?php echo $this->form_name; ?>.element.value="<?php echo $this->doc_name; ?>";document.forms.<?php echo $this->form_name; ?>.dw_action_<?php echo $this->doc_name; ?>.value="retrieve";document.forms.<?php echo $this->form_name; ?>.row_id_<?php echo $this->doc_name; ?>.value=-1;document.forms.<?php echo $this->form_name; ?>.submit()'>
+			<center><input type='button' class='action' value='<?php echo $button_text; ?>' onclick='document.forms.<?php echo $this->form_name; ?>.element.value="<?php echo $this->doc_name; ?>";document.forms.<?php echo $this->form_name; ?>.dw_action_<?php echo $this->doc_name; ?>.value="retrieve";document.forms.<?php echo $this->form_name; ?>.row_id_<?php echo $this->doc_name; ?>.value=-1;document.forms.<?php echo $this->form_name; ?>.submit()'>
 <?php
 			for($i=0;$i<count($this->fields);$i++) {
 				$this->fields[$i]->show_hidden($this->fields[$i]->name);

@@ -17,6 +17,7 @@
 
 		public $fields;				// Array of class field
 		public $identifier;
+		public $allow_save_and_continue= false;
 
 		public function common_field_elements($doc_name, $fields) {
 

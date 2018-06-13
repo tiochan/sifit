@@ -68,7 +68,7 @@ function ajax_set_div_list_value(origin, div_id, value, selection_field_id) {
  * @param string div_id
  */
 function ajax_show_div(div_id) {
-//    document.getElementById(div_id).style.border="1px solid #A5ACB2";
+    document.getElementById(div_id).style.border="1px solid #A5ACB2";
     document.getElementById(div_id).style.display="block";
 }
 
@@ -119,7 +119,7 @@ function doWorkGET(origin, destination, parameters){
         httpObject.onreadystatechange = function() {
             if (httpObject.readyState == 4 && httpObject.status == 200) {
                 ajax_set_div_value(destination, httpObject.responseText);
-                ajax_show_div(destination);
+//              ajax_show_div(destination);
             }
         }
     }
@@ -156,7 +156,7 @@ function doWorkPOST(origin, destination, parameters) {
         httpObject.onreadystatechange = function() {
             if (httpObject.readyState == 4 && httpObject.status == 200) {
                 ajax_set_div_value(destination, httpObject.responseText);
-                ajax_show_div(destination);
+//              ajax_show_div(destination);
             }
         }
     }
@@ -270,6 +270,18 @@ function ajax_set_timeout(callback_function, timeout, callbackagain) {
 	window[callback_function]();
 	
 	if(callbackagain) setTimeout(ajax_set_timeout, timeout, callback_function, timeout, callbackagain);
+}
+
+/**
+ * timeout in miliseconds
+ */
+function ajax_set_interval(callback_function, timeout, callbackagain) {
+
+	// Call function
+	window[callback_function]();
+	
+	// And start calling it each 'timeout' miliseconds
+	if(callbackagain) setInterval(callback_function, timeout);
 }
 
 var httpObject = null;

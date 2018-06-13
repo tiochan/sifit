@@ -168,7 +168,7 @@
 										$container.load(url);
 										var refreshId = setInterval(function()
 										{
-											//console.log("Reloading ' . $div_id . ' and waiting " + timeout + " ms");
+											console.log("Reloading ' . $div_id . ' and waiting " + timeout + " ms");
 											$container.load(url);
 										}, timeout);
 									});

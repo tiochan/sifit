@@ -13,10 +13,12 @@ You can use the output of one TAG as input for another, for example, use a TAG o
 
 Also you can use TAGs into the value definition of other TAGs, for example, into a Query TAG you can insert other TAGs as admin. As mentioned before, the TAGs are evaluated in depth, so, the Query will not be evaluated until are evaluated all the TAGs it contains, and this process is recursive.
 
-TAGs can also have parameters, that are passed through the calls and defined where the TAG is defined. For example:
+TAGs **can also contain parameters**, that are passed through the calls and defined where the TAG is defined. For example:
 ```
 	{BUDGET_PIE_GRAPH|ID=5;width=250;height=150;show_legend=false;top=30;bottom=30;left=30;right=30;refresh_time=9}
 ```
+> refresh_time is an special parameter which make sense in dashboard, and that will generate a JQuery object to get the content dynamically for this TAG. In reports does not make sense, because they are generated just once and sent by ... email?
+
 For example, we can define a TAG of type "query", called "GET_USER_EMAIL" with this value:
 ```
 	SELECT email FROM users WHERE id_user = '{USER_ID}'
@@ -44,11 +46,15 @@ So, following this example:
 2. Foreach TAG, calculate its value an replace into the current level:
 
 2.1. First TAG: USER_NAME
+
 2.1.1. Get value for USER_NAME, which is a TAG of type "System Var", and is going to return the content of a global var called "$USER_NAME", and in this case: tiochan.
+
 2.1.2. Replace on the report "USER_NAME" for value "tiochan".
 
 2.2. Next TAG: GET_USER_EMAIL
+
 2.2.1. Get value for GET_USER_EMAIL. The get_value method is called for this tag instance, which is a query.
+
 The query tag will do the same, first look for other sub-TAGs:
 
 	SELECT email FROM users WHERE id_user = '{USER_ID}'
