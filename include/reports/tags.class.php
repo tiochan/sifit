@@ -17,7 +17,7 @@
  
  For TAGs:
  define("TAG_REGEXP", '#\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ]*?)}#is');
-                       #\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ][^\{\}]*?)}#is
+ define("TAG_REGEXP", '#\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ][^\{\}]*?)}#is');
  define("TAG_REGEXP", '#\{(.[^\{\}]*)}#is');
  define("TAG_REGEXP", '#\{([^\$\s].[^\{\}]*)}#is');
 
@@ -28,349 +28,325 @@
 */
 
 define("TAG_REGEXP",  '#\{([^\$\s].[^\{\}]*)}#is');
-define("VAR_REGEXP1", '#\[\$([^\s].[^\{\}]*)\]#is');
-define("VAR_REGEXP2", '#\{\$([^\s].[^\{\}]*)\}#is');
+define("VAR_REGEXP", '#\{\$([^\s].[^\{\}]*)\}#is');
+
+class tag {
+
+	public $id_tag;
+	public $tag_name;
+	public $calc_method;
+	public $description;
+	public $value;
+	public $extrainfo;
+	protected $extrainfo_orig;
+	public $connection;
+	public $is_public;
+	public $parameters;
+	public $parsed_parameters;
+
+	protected $db;
+
+	protected $is_ok;
+	protected $tag_ref;
+
+	protected $tag_calls;
 
 
-	class tag {
+	public function tag($tag_name, $tag_calls=null) {
 
-		public $id_tag;
-		public $tag_name;
-		public $calc_method;
-		public $description;
-		public $value;
-		public $extrainfo;
-		public $connection;
-		public $is_public;
-		public $parameters;
-
-		protected $db;
-
-		protected $is_ok;
-		protected $tag_ref;
-
-		protected $tag_calls;
+		global $global_db;
+		global $USER_ID;
 
 
-		public function tag($tag_name, $tag_calls=null) {
+		$this->tag_calls= $tag_calls ? $tag_calls : array();
+		$this->tag_calls= $tag_calls;
+		$this->tag_calls[]=$tag_name;
 
-			global $global_db;
-			global $USER_ID;
+		$this->parameters= array();
+		$this->parsed_parameters= array();
 
+		if(!isset($USER_ID)) die("User id is required but is not defined at tag declaration");
 
-			$this->tag_calls= $tag_calls ? $tag_calls : array();
-			$this->tag_calls= $tag_calls;
-			$this->tag_calls[]=$tag_name;
+		$this->is_ok= false;
 
-			$this->parameters= array();
-
-			if(!isset($USER_ID)) die("User id is required but is not defined at tag declaration");
-
-			$this->is_ok= false;
-
-			$tag_parts=explode("|",$tag_name);
-			$tag_name= $tag_parts[0];
+		$tag_parts=explode("|",$tag_name);
+		$tag_name= $tag_parts[0];
 
 
-			// Get tag definition
-			$query="SELECT id_tag, tag_name, calc_method, description, value, extrainfo, connection, is_public FROM report_tags WHERE tag_name ='$tag_name'";
-			$res= $global_db->dbms_query($query);
+		// Get tag definition
+		$query="SELECT id_tag, tag_name, calc_method, description, value, extrainfo, connection, is_public FROM report_tags WHERE tag_name ='$tag_name'";
+		$res= $global_db->dbms_query($query);
 
-			if(! $global_db->dbms_check_result($res)) return;
+		if(! $global_db->dbms_check_result($res)) return;
 
-			list($this->id_tag, $this->tag_name, $this->calc_method, $this->description, $this->value, $this->extrainfo, $this->connection, $this->is_public)= $global_db->dbms_fetch_row($res);
-			$this->value=stripslashes($this->value);
+		list($this->id_tag, $this->tag_name, $this->calc_method, $this->description, $this->value, $this->extrainfo_orig, $this->connection, $this->is_public)= $global_db->dbms_fetch_row($res);
+		$this->value=stripslashes($this->value);
 
-			if(count($tag_parts) > 1) {
-				$this->extrainfo.= ";" . $tag_parts[1] . ";";
+		$global_db->dbms_free_result($res);
+
+		if(!$this->is_public) {
+			$user= new user($USER_ID);
+			if($user->level != 0) die("Access denied to tag $this->tag_name");
+		}
+
+		if(count($tag_parts) > 1) $this->extrainfo_orig.= ";" . $tag_parts[1] . ";";
+		$this->extrainfo= $this->extrainfo_orig;
+
+		$this->get_connection();
+		$this->is_ok= true;
+	}
+
+
+	public function add_parameter($parameter,$value) {
+
+		$this->parameters[$parameter]= $value;
+	}
+
+
+	protected function get_parameter($parameter) {
+
+		if(!isset($this->parsed_parameters[$parameter])) return false;
+		return $this->parsed_parameters[$parameter];
+	}
+
+
+	/**
+	 * Get the real value of TAG
+	 *
+	 * @return (constant, string, url or operation)
+	 */
+	public function get_value() {
+
+		// TODO: the return value in case of error should be an error code, e.g. "false"
+		// This means check the return code on the recursive TAG call.
+		if(!$this->is_ok) return "<font color='red'>** TAG \"" . addslashes($this->tag_name) . "\" NOT FOUND **</font>";
+
+		// FIRST Step: parse parameters on extra info
+		$this->parse_extrainfo();
+		// SECOND Step: replace parameters / vars set in the forms: "{$<var_name>}", "[$<var_name>]"
+		$this->value= $this->parse_vars($this->value);
+
+		// THIRD Step: in the forms: "{<tag_name>}"
+		$this->value= $this->parse_tags($this->value);
+
+		// Create an instance of the tag type
+		$tag_name= "tag_" . $this->calc_method;
+		$file= INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
+		if(!file_exists($file)) {
+			$file= MY_INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
+			if(!file_exists($file)) return "** Error: TAG type not implemented: $tag_name **";
+		}
+
+		include_once $file;
+		$this->tag_ref= new $tag_name($this->value, $this->extrainfo, $this->db);
+
+		$value= $this->tag_ref->get_value();
+
+		return $value;
+	}
+	
+	protected function parse_vars($value) {
+
+		$vars=get_vars($value, $this->calc_method);
+
+		while((count($vars) > 0)) {
+
+			$previous_value= $value;
+
+			foreach($vars as $var) {
+				$var_value= $this->get_parameter($var);
+				if($var_value !== false) {
+//					$this->value=str_replace('[$' . $var . ']', $var_value, $value);
+					$this->value=str_replace('{$' . $var . '}', $var_value, $value);
+				} else {
+					echo "*** Warning: Expected parameter $var on tag $this->tag_name, but not found ***<br>";
+				}
 			}
-			$global_db->dbms_free_result($res);
 
-			if(!$this->is_public) {
-				$user= new user($USER_ID);
-				if($user->level != 0) die("Access denied to tag $this->tag_name");
-			}
+			// If no changes where made, then exit loop
+			if($value == $previous_value) break;
 
-			$this->get_connection();
-			$this->parse_extrainfo();
-			$this->is_ok= true;
+			$vars=get_vars($value, $this->calc_method);
 		}
+		
+		return $value;
+	}
+	
+	protected function parse_tags($value) {
+	
+		$tags=get_tags($value);
 
-		public function add_parameter($parameter,$value) {
+		while((count($tags) > 0)) {
 
-			$this->parameters[$parameter]= $value;
-			$this->extrainfo.=";$parameter=$value";
-		}
-
-		protected function get_parameter($parameter) {
-			if(!isset($this->parameters[$parameter])) return false;
-			return $this->parameters[$parameter];
-		}
-
-		/**
-		 * Get the real value of TAG
-		 *
-		 * @return (constant, string, url or operation)
-		 */
-		public function get_value() {
-
-			// TODO: the return value in case of error should be an error code, e.g. "false"
-			// This means check the return code on the recursive TAG call.
-			if(!$this->is_ok) return "<font color='red'>** TAG \"" . addslashes($this->tag_name) . "\" NOT FOUND **</font>";
-
-			/**
-			 * FIRST STEP: replace parameters / vars
-			 *
-			 * Those are set into the forms: "{$<var_name>}", "[$<var_name>]", and they will be
-			 * searched as a parameter.
-			 */
-			$vars=get_vars($this->value, $this->calc_method);
-
-			while((count($vars) > 0)) {
-
-				$previous_value= $this->value;
-
-				foreach($vars as $var) {
-					$var_value= $this->get_parameter($var);
-					if($var_value !== false) {
-						$this->value=str_replace('[$' . $var . ']', $var_value, $this->value);
-					} else {
-						echo "*** Warning: Expected parameter $var on tag $this->tag_name, but not found ***<br>";
+			$previous_value= $value;
+			foreach($tags as $tag) {
+				if(strpos($tag,"$") !== false ) {	// Expects a variable
+					$new_tag= $this->get_parameter(ltrim($tag, '$'));
+					if($new_tag === false) {
+						echo "*** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found ***<br>";
 					}
+				} else {											// Is a normal tag
+					if($this->is_a_loop($tag)) exit;
+
+					$tag_instance= new tag($tag,$this->tag_calls);
+					$new_tag= $tag_instance->get_value();
 				}
 
-				// If no changes where made, then exit loop
-				if($this->value == $previous_value) break;
-
-				$vars=get_vars($this->value, $this->calc_method);
+				//replace tag in report
+				$value=str_replace('{' . $tag . '}', $new_tag, $value);
 			}
 
-			$tags=get_tags($this->value);
+			// If no changes where made, then exit loop
+			if($value == $previous_value) break;
 
-			while((count($tags) > 0)) {
+			$tags=get_tags($value);
+		}
+		
+		return $value;
+	}
 
-				$previous_value= $this->value;
+	/**
+	 * Returns false if there is a looped call.
+	 */
+	protected function is_a_loop($tag) {
+		if(in_array($tag, $this->tag_calls)) {
+			echo "******************** ERROR ********************<br>\n";
+			echo "*** Recursive call detected. Aborting process.<br>\n";
+			echo "*** Tag '" . $this->tag_name . "' calls for tag '" . $tag . "' which is already being calculated.<br>\n";
+			echo "*** Call tree:<br>\n";
 
-				foreach($tags as $tag) {
-
-					if(strpos($tag,"$") !== false ) {	// Expects a variable
-						$new_tag= $this->get_parameter(ltrim($tag, '$'));
-						if($new_tag === false) {
-							echo "*** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found ***<br>";
-						}
-
-					} else {											// Is a normal tag
-
-						if(in_array($tag, $this->tag_calls)) {
-							echo "******************** ERROR ********************<br>";
-							echo "*** Recursive call detected. Aborting process.<br>";
-							echo "*** Tag '" . $this->tag_name . "' calls for tag '" . $tag . "' which is already being calculated.<br>";
-							echo "*** Call tree:<br>";
-
-							$old_tn="";
-							foreach($this->tag_calls as $tn) {
-								if($old_tn != "") echo "*** - '$old_tn' calls '$tn'<br>";
-								$old_tn=$tn;
-							}
-							if($old_tn != "") echo "*** - '$old_tn' calls '" . $tag . "' which is above<br>";
-							exit;
-						}
-
-						$tag_instance= new tag($tag,$this->tag_calls);
-						$new_tag= $tag_instance->get_value();
-					}
-
-					//replace tag in report
-					$this->value=str_replace('{' . $tag . '}', $new_tag, $this->value);
-				}
-
-				// If no changes where made, then exit loop
-				if($this->value == $previous_value) {
-					echo "NO CHANGES ON TAGS -> BREAK<br>";
-					break;
-				}
-
-				$tags=get_tags($this->value);
+			$old_tn="";
+			foreach($this->tag_calls as $tn) {
+				if($old_tn != "") echo "*** - '$old_tn' calls '$tn'<br>\n";
+				$old_tn=$tn;
 			}
+			if($old_tn != "") echo "*** - '$old_tn' calls '" . $tag . "' which is above<br>";
+			echo "******************** ERROR ********************<br>\n";
+			return true;
+		}
+		return false;
+	}		
 
-			$tag_name= "tag_" . $this->calc_method;
+	protected function get_connection() {
 
-			$file= INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
+		global $global_db;
+
+		if($this->connection == "") return;
+
+		if($this->connection == "APP_GENERIC_CONN") {
+			$this->db= &$global_db;
+		} else {
+
+			$file= SYSHOME . "/include/reports/conn/" . $this->connection;
 			if(!file_exists($file)) {
-				$file= MY_INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
-				if(!file_exists($file)) return "** Error: TAG type not implemented: $tag_name **";
+				$file= SYSHOME . "/my_include/reports/conn/" . $this->connection;
+				if(!file_exists($file)) return "** Error: SQL Connection not found: $this->connection **";
 			}
 
 			include_once $file;
 
-			foreach($this->parameters as $parameter => $value) {
-				$this->extrainfo.=";$parameter=$value";
-			}
+			$conn_name= explode(".",$this->connection);
+			$func= $conn_name[0] . "_connect";
 
-			$this->tag_ref= new $tag_name($this->value, $this->extrainfo, $this->db);
-
-			$value= $this->tag_ref->get_value();
-
-			return $value;
+			$this->db= $func();
 		}
 
-		protected function get_connection() {
-
-			global $global_db;
-
-			if($this->connection == "") return;
-
-			if($this->connection == "APP_GENERIC_CONN") {
-				$this->db= &$global_db;
-			} else {
-
-				$file= SYSHOME . "/include/reports/conn/" . $this->connection;
-				if(!file_exists($file)) {
-					$file= SYSHOME . "/my_include/reports/conn/" . $this->connection;
-					if(!file_exists($file)) return "** Error: SQL Connection not found: $this->connection **";
-				}
-
-				include_once $file;
-
-				$conn_name= explode(".",$this->connection);
-				$func= $conn_name[0] . "_connect";
-
-				$this->db= $func();
-			}
-
-			return;
-		}
-
-		protected function parse_extrainfo() {
-
-			$this->extrainfo=trim($this->extrainfo);
-			$pairs=explode(";",$this->extrainfo);
-
-			///////////////////////////////////////////////
-			// First, parse those which are not parameters
-
-			// Extract parameters and values
-			foreach($pairs as $pair) {
-				$pair= trim($pair);
-
-				$elements=explode("=",$pair,2);
-
-				if(!isset($elements[0]) or $elements[0] == "") continue;
-				if(strpos($elements[0], "--") === 0) continue;
-
-				trim($elements[0]);
-				$value= isset($elements[1]) ? trim($elements[1]) : "";
-
-				$tags=get_tags($value);
-
-				foreach($tags as $tag) {
-					if(strpos($tag,"$") !== false ) continue;		// Is a parameter
-
-					$tag_value= get_tag_value($tag);
-					$value=str_replace('{' . $tag . '}', $tag_value, $value);
-				}
-
-				$this->parameters[$elements[0]]= $value;
-			}
-
-			///////////////////////////////////////////////
-			// Then, parse those which are parameters
-
-			// Extract parameters and values
-			foreach($pairs as $pair) {
-				$pair= trim($pair);
-				$elements=explode("=",$pair,2);
-
-				if(!isset($elements[0]) or $elements[0] == "") continue;
-				if(strpos($elements[0], "--") === 0) continue;
-
-				trim($elements[0]);
-				$value= isset($elements[1]) ? trim($elements[1]) : "";
-
-				$vars=get_vars($value, $this->calc_method);
-
-				foreach($vars as $var) {
-
-					$var_value= $this->get_parameter($var);
-					if($var_value === false) {
-						echo "<font color='red'>*** Warning: Expected parameter $tag[0] on tag property $elements[0], but not found ***</font><br>";
-					}
-
-					$value=str_replace('{$' . $var . '}', $var_value, $value);
-					$value=str_replace('[$' . $var . ']', $var_value, $value);
-					$this->parameters[$elements[0]]= $value;
-				}
-			}
-		}
+		return;
 	}
 
-	/**
-	 * Take from a phrase the words between '{' and '}'
-	 *
-	 * @param $string string
-	 * @return arrays of tags
-	 */
-	function & get_tags($string) {
+	protected function parse_extrainfo() {
 
-		preg_match_all(TAG_REGEXP, $string, $tags_tmp, PREG_PATTERN_ORDER);
-
-		$tags= array();
-
-		foreach($tags_tmp[1] as $tag) {
-			if(strpos($string, "{" . $tag) !== false) $tags[]= $tag;
+		$this->extrainfo=trim($this->extrainfo_orig);
+		
+		// Add the parameters that have been added to the extrainfo property
+		// in order to examine all together.
+		foreach($this->parameters as $parameter => $value) {
+			$this->extrainfo.=";$parameter=$value";
 		}
 
-		return $tags;
-	}
+		// FIRST Step: explode the extra info into on parameter => value:
+		unset($this->parsed_parameters);
+		$this->parsed_parameters= array();
+		
+		// Extract parameters and values
+		$pairs=explode(";",$this->extrainfo);
 
-	function & get_vars($string, $calc_method="any") {
+		foreach($pairs as $pair) {
+			$pair= trim($pair);
+			$elements=explode("=",$pair,2);
 
-		$vars=array();
+			if(!isset($elements[0]) or $elements[0] == "") continue;
+			if(strpos($elements[0], "--") === 0) continue;
 
-		if($calc_method!="php_code") {
-			// Search VARS in the form "[$..."
-			$ret1= preg_match_all(VAR_REGEXP1, $string, $vars1, PREG_PATTERN_ORDER);
-			foreach($vars1[1] as $var) {
-				if(strpos($string, '[$' . $var) !== false) $vars[]= $var;
-			}
+			trim($elements[0]);
+			$value= isset($elements[1]) ? trim($elements[1]) : "";
+			$value= $this->parse_vars($value);
+			$value= $this->parse_tags($value);
+			$this->parsed_parameters[$elements[0]]= $value;
 		}
-
-		// Search VARS in the form "{$..."
-		$ret2= preg_match_all(VAR_REGEXP2, $string, $vars2, PREG_PATTERN_ORDER);
-		foreach($vars2[1] as $var) {
-			if(strpos($string, '{$' . $var) !== false) $vars[]= $var;
-		}
-
-//		$vars= array_merge($vars1[1], $vars2[1]);
-
-		return $vars;
-	}
-
-	/**
-	 * For a tag name given, calculates the value and returns it.
-	 *
-	 * @param $tag_name string
-	 */
-	function get_tag_value($tag_name) {
-
-		$tag_instance= new tag($tag_name);
-
-		if(!$tag_instance) return false;
-		return $tag_instance->get_value();
-	}
-
-	/**
-	 * If the string is a TAG ({xxxxxx}) returns the tag name (xxxxxx), else
-	 * returns false.
-	 *
-	 * @param $string string
-	 */
-	function is_a_tag($string) {
-
-		if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
-			return $tags[1];
-		} else {
-			return false;
+		
+		$this->extrainfo="";
+		foreach($this->parsed_parameters as $key => $value) {
+			$this->extrainfo.="$key=$value;";
+			$this->value=str_replace('{$' . $key . '}', $value, $this->value);
 		}
 	}
+}
+
+/**
+ * Take from a phrase the words between '{' and '}'
+ *
+ * @param $string string
+ * @return arrays of tags
+ */
+function & get_tags($string) {
+
+	preg_match_all(TAG_REGEXP, $string, $tags_tmp, PREG_PATTERN_ORDER);
+
+	$tags= array();
+
+	foreach($tags_tmp[1] as $tag) {
+		if(strpos($string, "{" . $tag) !== false) $tags[]= $tag;
+	}
+
+	return $tags;
+}
+
+function & get_vars($string, $calc_method="any") {
+
+	$vars= array();
+	
+	$ret= preg_match_all(VAR_REGEXP, $string, $vars, PREG_PATTERN_ORDER);
+	if(!isset($vars[1])) $vars[1]= array();
+
+	return $vars[1];
+}
+
+/**
+ * For a tag name given, calculates the value and returns it.
+ *
+ * @param $tag_name string
+ */
+function get_tag_value($tag_name) {
+
+	$tag_instance= new tag($tag_name);
+
+	if(!$tag_instance) return false;
+	return $tag_instance->get_value();
+}
+
+/**
+ * If the string is a TAG ({xxxxxx}) returns the tag name (xxxxxx), else
+ * returns false.
+ *
+ * @param $string string
+ */
+function is_a_tag($string) {
+
+	if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
+		return $tags[1];
+	} else {
+		return false;
+	}
+}
 ?>

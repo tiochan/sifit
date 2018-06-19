@@ -22,7 +22,9 @@ $strings= array(
 	"{GENERIC_QUERY_LOCAL|QUERY=SELECT vote_date, vote FROM day_poll WHERE id_user='1' AND vote_date >= '2012/12/01'}",
 	"{GENERIC_QUERY_LOCAL|QUERY=SELECT vote_date, vote FROM day_poll WHERE id_user='1' AND vote_date >= '{MONTH_DAY_1'}",
 	'Hola, dentro hay una variable [$variable1|y este es un parametro escondido] y otra variable {$var2}.',
-	"var div_id='{\$DIV_ID}' var div_obj=document.getElementById(div_id); if(div_obj == null) { console.log(\"Error: Div id not found '\" + div_id + \"'\"); exit; } var value={\$VALUE}; alert('Value is ' + value + ' and DIV ID is ' + div_id); if(value < {\$WARN_LIMIT}) { div_obj.style.backgroundColor=\"{\$NORMAL_BG_COLOR}\"; div_obj.style.color=\"{\$NORMAL_FG_COLOR}\"; } else if (value < {\$CRITICAL_LIMIT}) { div_obj.style.backgroundColor=\"{\$WARN_BG_COLOR}\"; div_obj.style.color=\"{\$WARN_FG_COLOR}\"; } else { div_obj.style.backgroundColor=\"{\$CRITICAL_BG_COLOR}\"; div_obj.style.color=\"{\$CRITICAL_FG_COLOR}\"; } {TAG_TEST_DETECTION}"
+	"var div_id='{\$DIV_ID}' var div_obj=document.getElementById(div_id); if(div_obj == null) { console.log(\"Error: Div id not found '\" + div_id + \"'\"); exit; } var value={\$VALUE}; alert('Value is ' + value + ' and DIV ID is ' + div_id); if(value < {\$WARN_LIMIT}) { div_obj.style.backgroundColor=\"{\$NORMAL_BG_COLOR}\"; div_obj.style.color=\"{\$NORMAL_FG_COLOR}\"; } else if (value < {\$CRITICAL_LIMIT}) { div_obj.style.backgroundColor=\"{\$WARN_BG_COLOR}\"; div_obj.style.color=\"{\$WARN_FG_COLOR}\"; } else { div_obj.style.backgroundColor=\"{\$CRITICAL_BG_COLOR}\"; div_obj.style.color=\"{\$CRITICAL_FG_COLOR}\"; } {TAG_TEST_DETECTION}",
+	"[\$MIN],[\$MAX]",
+	"{\$MIN},{\$MAX}"
 );
 
 
