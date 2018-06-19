@@ -967,7 +967,8 @@
 
 			foreach($this->fields as $field) {
 				if(!isset($row[$field->name])) continue;
-
+				// TODO: Here is the place where the value is set to the field
+				// There is a kind of error when the value contains, p.e. </script>
 				$field->set_form_value($this->parent_datawindow->form_name, $field->get_real_value($row[$field->name]));
 			}
 

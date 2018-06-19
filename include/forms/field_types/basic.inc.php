@@ -545,7 +545,7 @@
 		public function get_real_value($field_value) {
 
 			$ret= parent::get_real_value($field_value);
-			$ret= stripcslashes($ret);
+			$ret= stripslashes($ret);
 
 			return $ret;
 		}
@@ -684,6 +684,7 @@
 		 * @return mixed
 		 */
 		public function get_value($field_value, $for_show= true) {
+		
 			$ret= $field_value;
 
 			if($for_show) {
@@ -697,11 +698,11 @@
 		}
 
 		function get_sql_value($field_value) {
+		
 			global $global_db;
 
 			// $ret= htmlentities($field_value, ENT_QUOTES);
 			$ret= $field_value;
-
 
 			// TODO
 			// Notified by Crhistian King

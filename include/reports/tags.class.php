@@ -10,12 +10,26 @@
  *
  */
 
-	// define("TAG_REGEXP", '#\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ]*?)}#is');
-	// define("TAG_REGEXP", '#\{(.[^\{\}]*)}#is');
-	define("TAG_REGEXP", '#\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ][^\{\}]*?)}#is');
-	//define("VAR_REGEXP", '#\[\$([a-z0-9\.\-_|=;\$ ]*?)]#is');
-	define("VAR_REGEXP1", '#\[\$(.?[^{]*[^}])]#is');
-	define("VAR_REGEXP2", '#\{\$(.?[^{]*[^}])}#is');
+/**
+ * Set of regular expressions being tested:
+ http://www.php.net/manual/es/reference.pcre.pattern.modifiers.php
+ http://www.igdonline.com/blog/rapido-y-completo-expresiones-regulares-en-php/
+ 
+ For TAGs:
+ define("TAG_REGEXP", '#\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ]*?)}#is');
+                       #\{([a-z0-9\,\.\-\_\|\=\;\<\>\'\"\@\#\%\&\(\)\$\/ ][^\{\}]*?)}#is
+ define("TAG_REGEXP", '#\{(.[^\{\}]*)}#is');
+ define("TAG_REGEXP", '#\{([^\$\s].[^\{\}]*)}#is');
+
+ For parameters/Vars:
+ define("VAR_REGEXP", '#\[\$([a-z0-9\.\-_|=;\$ ]*?)]#is');
+ define("VAR_REGEXP1", '#\[\$(.?[^{]*[^}])]#is');
+ define("VAR_REGEXP2", '#\{\$(.?[^{]*[^}])}#is');
+*/
+
+define("TAG_REGEXP",  '#\{([^\$\s].[^\{\}]*)}#is');
+define("VAR_REGEXP1", '#\[\$([^\s].[^\{\}]*)\]#is');
+define("VAR_REGEXP2", '#\{\$([^\s].[^\{\}]*)\}#is');
 
 
 	class tag {
@@ -100,12 +114,14 @@
 		 */
 		public function get_value() {
 
+			// TODO: the return value in case of error should be an error code, e.g. "false"
+			// This means check the return code on the recursive TAG call.
 			if(!$this->is_ok) return "<font color='red'>** TAG \"" . addslashes($this->tag_name) . "\" NOT FOUND **</font>";
 
 			/**
-			 * Search for vars.
+			 * FIRST STEP: replace parameters / vars
 			 *
-			 * Those are set into the form: "[$<var_name>]", and they will be
+			 * Those are set into the forms: "{$<var_name>}", "[$<var_name>]", and they will be
 			 * searched as a parameter.
 			 */
 			$vars=get_vars($this->value, $this->calc_method);
@@ -128,7 +144,6 @@
 
 				$vars=get_vars($this->value, $this->calc_method);
 			}
-
 
 			$tags=get_tags($this->value);
 

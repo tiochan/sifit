@@ -366,6 +366,15 @@
 
 			if(!$this->dbms_is_connected()) return 0;
 
+			if($numrows < 0) {
+				if(DEBUG) echo "Warning: " . __FILE__ . ":" . __LINE__ . " --> numrows parameter is lower 0";
+				return $query;
+			}
+			if($offset < 0) {
+				if(DEBUG) echo "Warning: " . __FILE__ . ":" . __LINE__ . " --> offset parameter is lower 0";
+				return $query;
+			}
+
 			$ret= $query . " LIMIT " . $numrows;
 			if($offset) $ret.= " OFFSET " . $offset;
 

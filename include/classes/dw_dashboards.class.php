@@ -29,7 +29,6 @@
 	include_once INC_DIR . "/forms/form_elements/datawindow.inc.php";
 	include_once INC_DIR . "/forms/form_elements/search_box.inc.php";
 	include_once INC_DIR . "/classes/dw_report_tags.class.php";
-	include_once INC_DIR . "/ajax/include_ajax.inc.php";
 
 
 	class dw_dashboards extends datawindow {

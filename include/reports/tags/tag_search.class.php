@@ -3,7 +3,7 @@
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
  *
- * @package sigvi
+ * @package sifit
  * @subpackage reports
  *
  * Tags definition class

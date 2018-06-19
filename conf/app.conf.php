@@ -32,10 +32,10 @@
  *
  ******************************************************************************/
 
-define("HOME","/reports");                                       // EDIT
+define("HOME","/sifit");                                         // EDIT
 define("SERVER_URL","http://localhost");                         // EDIT
 
-define("ADM_EMAIL","Sebastian Gomez <tiochan@gmail.com>");      // EDIT
+define("ADM_EMAIL","Sebastian Gomez <tiochan@gmail.com>");       // EDIT
 define("APP_NAME","SIFIT");
 
 define("APP_DESCRIPTION","Sysops Intelligence For IT");
@@ -53,9 +53,9 @@ define("APP_VERSION","SIFIT - SysOps Intelligence For IT, 1.5.01 Beta");
 
 define("DBType","mysqli");
 define("DBServer","localhost");
-define("DBName","bi4it");
-define("DBUser","sigvi");
-define("DBPass","sigvi05");
+define("DBName","sifit");
+define("DBUser","sifit_user");
+define("DBPass","s1f1t@713");
 
 
 /*******************************************************************************

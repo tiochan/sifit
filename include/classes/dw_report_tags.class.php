@@ -132,6 +132,7 @@
 			parent::datawindow_ext($qry);
 			$this->add_search_box($sb);
 			$this->allow_save_and_continue= true;
+			$this->max_lines_per_page=100;
 
 			// Multiple row actions
 			if($can_manage) {

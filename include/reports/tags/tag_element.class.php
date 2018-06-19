@@ -3,7 +3,7 @@
  * @author Sebastian Gomez (sebastian.gomez@upcnet.es)
  * For: Politechnical University of Catalonia (UPC), Spain.
  *
- * @package sigvi
+ * @package sifit
  * @subpackage reports
  *
  * Tag elements definition class

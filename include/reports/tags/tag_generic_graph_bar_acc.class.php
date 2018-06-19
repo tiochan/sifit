@@ -3,7 +3,7 @@
  * @author Jorge Novoa (jorge.novoa@upcnet.es)
  * For: Politechnical University of Catalonia (UPC), Spain.
  *
- * @package sigvi
+ * @package sifit
  * @subpackage reports
  *
  * Tags definition class
