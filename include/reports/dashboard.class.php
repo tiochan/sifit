@@ -10,24 +10,10 @@
  */
  ?>
 <script src="<?php echo HOME; ?>/include/jquery/jquery-3.3.1.min.js"></script>
-<!--
-<script language='JavaScript' src='/reports/include/ajax/ajax.js'></script>
-
-<link rel="stylesheet" href="/reports/include/jquery/themes/base/jquery.ui.all.css">
-<script src="<?php echo HOME; ?>/include/jquery/jquery-1.6.2.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.core.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.widget.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.mouse.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.button.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.dialog.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.draggable.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.position.js"></script>
-<script src="<?php echo HOME; ?>/include/jquery/ui/jquery.ui.resizable.js"></script>
--->
 <?php
 
 	include_once INC_DIR . "/reports/tags.class.php";
-	include_once INC_DIR . "/ajax/include_ajax.inc.php";
+//	include_once INC_DIR . "/ajax/include_ajax.inc.php";
 
 	class dashboard {
 
