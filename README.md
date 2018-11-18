@@ -1,6 +1,7 @@
 # SIFIT
 SIFIT stands for Sysops Intelligence For IT.
 
+
 ##Introduction
 Is an application to define and represent reports and dashboards using wysiwyg rich-text editors and special pieces called "TAGs". One TAG belongs to a type, and is going to be **calculated on demand** and its value will replace the TAG name on the report or dashboard. Usually the TAGs are used between "{ }"
 
