@@ -198,8 +198,8 @@
 		}
 	}
 
-	class string extends field_type {
-		function string($default_value="") {
+	class fstring extends field_type {
+		function fstring($default_value="") {
 			parent::field_type($default_value);
 		}
 	}
@@ -212,7 +212,7 @@
 	}
 
 
-	class currency extends string {
+	class currency extends fstring {
 
 		public $decimals=2;
 
@@ -296,7 +296,7 @@
 		}
 	}
 
-	class email extends string {
+	class email extends fstring {
 
 		public function show($field_name, $readonly) {
 
@@ -826,9 +826,9 @@ echo htmlentities($value);
 		}
 	}
 
-	class bool extends field_type {
+	class fbool extends field_type {
 
-		function bool() {
+		function fbool() {
 			$this->value_reference="'";
 		}
 
@@ -873,10 +873,10 @@ echo htmlentities($value);
 		}
 	}
 
-	class boolean extends bool {
+	class boolean extends fbool {
 	}
 
-	class str_bool extends bool {
+	class str_bool extends fbool {
 
 		function check($value) {
 

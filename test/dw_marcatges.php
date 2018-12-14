@@ -129,13 +129,13 @@ echo "HOLA: $date_format,  $this->start_date";
 	}
 
 
-	class field_ext_ip_mac extends string {
+	class field_ext_ip_mac extends fstring {
 
 		function field_ext_ip_mac($default_value="") {
 
 			global $GLOBAL_HEADERS;
 
-			parent::string($default_value);
+			parent::fstring($default_value);
 
 			if(!isset($GLOBAL_HEADERS["jquery_dialog"])) {
 				$GLOBAL_HEADERS["jquery_dialog"]='
@@ -213,7 +213,7 @@ echo "HOLA: $date_format,  $this->start_date";
 			$fields_mark[0]= new field_ext("time_marks.id","","auto",false,true,0,false);
 			$fields_mark[1]= new field_ext("time_marks.user_id",$MESSAGES["USER_FIELD_USERNAME"],"foreign_key", true, false, 0, ($USER_LEVEL <= 3), null, $user_reference);
 			$fields_mark[2]= new field_ext("time_marks.mark_date","Data","date",true,false,2,true);
-			$fields_mark[3]= new field_ext("time_marks.marks","Marcatges","string",true,false,3,true);
+			$fields_mark[3]= new field_ext("time_marks.marks","Marcatges","fstring",true,false,3,true);
 			$fields_mark[4]= new field_ext("time_marks.minutes","Minuts","integer",false,false,4,true,0);
 
 			$fields_mark[1]->hide_on_update=true;

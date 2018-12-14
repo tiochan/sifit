@@ -54,12 +54,12 @@
 			// Fields
 			$fields= array();
 			$fields[]= new field_ext("tasks.id_ptl","","auto",false,true,0,false);
-			$fields[]= new field_ext("tasks.task_name",$MESSAGES["TASKS_FIELD_NAME"],"string",true,false,1,true,$null_reference);
+			$fields[]= new field_ext("tasks.task_name",$MESSAGES["TASKS_FIELD_NAME"],"fstring",true,false,1,true,$null_reference);
 			$fields[]= new field_ext("tasks.script",$MESSAGES["TASKS_FIELD_SCRIPT"],"listbox",true,false,2,true,$null_reference,$scripts);
 			$fields[]= new field_ext("tasks.description",$MESSAGES["TASKS_FIELD_DESCRIPTION"],"text",false,false,3,true,$null_reference);
 			$fields[]= new field_ext("tasks.periodicity",$MESSAGES["TASKS_FIELD_PERIODICITY"],"listbox",true,false,4,true,$null_reference,$periodicity);
 			$fields[]= new field_ext("tasks.hour",$MESSAGES["TASKS_FIELD_HOUR"],"list_time",false,false,5,true);
-			$fields[]= new field_ext("tasks.send_report",$MESSAGES["TASKS_FIELD_SEND_REPORT"],"bool",false,false,6,true);
+			$fields[]= new field_ext("tasks.send_report",$MESSAGES["TASKS_FIELD_SEND_REPORT"],"fbool",false,false,6,true);
 
 			// Creation of table and add it to query
 			$can_insert= ($USER_LEVEL == 0);

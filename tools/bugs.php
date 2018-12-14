@@ -130,7 +130,7 @@
 	$fields[]= new field("id_bug","ID","auto",false,true,true,false);
 	$fields[]= new field("status",$MESSAGES["BUG_FIELD_STATUS"],"listbox",true,false,true,true,0,$list);
 	$fields[]= new field("id_user","","integer",false,false,false,false,$USER_NAME);
-	$fields[]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"string",false,false,true,false,$USER_NAME);
+	$fields[]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"fstring",false,false,true,false,$USER_NAME);
 	$fields[]= new field("bug_description",$MESSAGES["BUG_FIELD_DESCRIPTION"],"short_html",true,false,true,true);
 	$fields[]= new field("creation_date",$MESSAGES["BUGS_FIELD_CREATION_DATE"],"date",true,false,true,false);
 	$fields[]= new field("closing_date",$MESSAGES["BUGS_FIELD_CLOSING_DATE"],"date",true,false,true,false);

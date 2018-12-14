@@ -54,17 +54,17 @@
 			$list->lb["5"]=$MESSAGES["SKILL_5"];
 
 			$fields[]= new field("id_user","","auto",false,true,false,false);
-			$fields[]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"string",true,true,true,false);
+			$fields[]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"fstring",true,true,true,false);
 			$fields[]= new field("password",$MESSAGES["USER_FIELD_PASSWORD"],"password",false,false,false,true);
-			$fields[]= new field("external",$MESSAGES["USER_FIELD_EXTERNAL"],"bool",true,false,true,($USER_LEVEL <= 3),0);
-			$fields[]= new field("name",$MESSAGES["USER_FIELD_NAME"],"string",true,false,true,true);
-			$fields[]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"string",false,false,true,true);
+			$fields[]= new field("external",$MESSAGES["USER_FIELD_EXTERNAL"],"fbool",true,false,true,($USER_LEVEL <= 3),0);
+			$fields[]= new field("name",$MESSAGES["USER_FIELD_NAME"],"fstring",true,false,true,true);
+			$fields[]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"fstring",false,false,true,true);
 			$fields[]= new field("id_group",$MESSAGES["USER_FIELD_GROUP"],"foreign_key",true,false,true,($USER_LEVEL < 3),$USER_GROUP,$group_reference);
-			$fields[]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"string",true,false,true,true);
+			$fields[]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"fstring",true,false,true,true);
 			$fields[]= new field("level",$MESSAGES["USER_FIELD_LEVEL"],"listbox",true,false,true,false,$USER_LEVEL, $list);
-			$fields[]= new field("hiredate",$MESSAGES["USER_FIELD_HIREDATE"],"string",false,false,true,false);
+			$fields[]= new field("hiredate",$MESSAGES["USER_FIELD_HIREDATE"],"fstring",false,false,true,false);
 			$fields[]= new field("lang",$MESSAGES["USER_FIELD_LANG"],"list_lang",true,false,true,true,"en");
-			$fields[]= new field("send_notifications",$MESSAGES["USER_FIELD_SEND_NOTIFICATIONS"],"bool",true,false,true,true,1);
+			$fields[]= new field("send_notifications",$MESSAGES["USER_FIELD_SEND_NOTIFICATIONS"],"fbool",true,false,true,true,1);
 
 			parent::datawindow("users",$fields,0, "id_user=$USER_ID", "", false, true, false, $optional_db);
 		}

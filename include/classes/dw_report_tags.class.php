@@ -89,7 +89,7 @@
 			$list_connectors->add_dir("/my_include/reports/conn",".class.php");
 
 			$fields[0]= new field_ext("report_tags.id_tag","","auto",false,true,0,false);
-//			$fields[]= new field_ext("report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"string",true,true,1,true);
+//			$fields[]= new field_ext("report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"fstring",true,true,1,true);
 			$fields[1]= new master_field_ext(HOME . "/tools/report_tag_preview.php","tag_id",$fields[0],"report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"long_string",true,true,1,true);
 			$fields[1]->add_parameter("show_header=true");
 

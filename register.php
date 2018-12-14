@@ -168,14 +168,14 @@
 	$list->lb["3"]=$MESSAGES["SKILL_3"];
 
 	$fields[0]= new field("id_user","","auto",false,true,false,false);
-	$fields[1]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"string",true,true,true,true);
+	$fields[1]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"fstring",true,true,true,true);
 	$fields[2]= new field("password",$MESSAGES["USER_FIELD_PASSWORD"],"password",false,false,false,true);
-	$fields[3]= new field("name",$MESSAGES["USER_FIELD_NAME"],"string",true,false,true,true);
-	$fields[4]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"string",false,false,true,true);
-	$fields[5]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"string",true,false,true,true);
+	$fields[3]= new field("name",$MESSAGES["USER_FIELD_NAME"],"fstring",true,false,true,true);
+	$fields[4]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"fstring",false,false,true,true);
+	$fields[5]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"fstring",true,false,true,true);
 	$fields[6]= new field("lang",$MESSAGES["USER_FIELD_LANG"],"list_lang",true,false,true,true,"en");
-	$fields[7]= new field("external","","bool",false,false,false,false);
-	$fields[8]= new field("id_group","","string",false,false,false,false);
+	$fields[7]= new field("external","","fbool",false,false,false,false);
+	$fields[8]= new field("id_group","","fstring",false,false,false,false);
 	$fields[9]= new field("level","","integer",false,false,false,false);
 	$fields[10]= new field("send_notifications","","integer",false,false,false,false);
 

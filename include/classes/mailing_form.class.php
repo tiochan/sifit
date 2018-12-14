@@ -109,7 +109,7 @@
 			);
 
 			$fields2= array();
-			$fields2[0]= new field("subject","Subject","string",false, false, true, true);
+			$fields2[0]= new field("subject","Subject","fstring",false, false, true, true);
 			$fields2[0]->reference->size=75;
 
 

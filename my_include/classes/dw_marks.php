@@ -55,10 +55,10 @@ mysql> describe time_marks;
 
 			// TIME_MARKS TABLE //////////////////////////////////////////////////////////
 			$fields[0]= new field_ext("time_marks.id","","auto",false,true,0,false);
-			$fields[1]= new field_ext("time_marks.user_id","","string", true, false, 0, true);
+			$fields[1]= new field_ext("time_marks.user_id","","fstring", true, false, 0, true);
 			$fields[2]= new field_ext("time_marks.mark_date","Date","short_date",true,false,2,true);
-			$fields[3]= new field_ext("time_marks.marks","Marks","string",false,false,3,true);
-			$fields[4]= new field_ext("time_marks.minutes","Minutes","string",true,false,4,true);
+			$fields[3]= new field_ext("time_marks.marks","Marks","fstring",false,false,3,true);
+			$fields[4]= new field_ext("time_marks.minutes","Minutes","fstring",true,false,4,true);
 			$fields[5]= new field_ext("dummy","Time","dummy",true, false, 5, false);
 
 			$fields[3]->size=50;

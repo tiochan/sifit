@@ -41,9 +41,9 @@
 
 			$fields[0]= new field_ext("groups.id_group","","auto",false,true,0,false);
 			$fields[0]->is_detail=false;
-			$fields[1]= new field_ext("groups.name",$MESSAGES["GROUP_FIELD_NAME"],"string",true,true,1,true);
+			$fields[1]= new field_ext("groups.name",$MESSAGES["GROUP_FIELD_NAME"],"fstring",true,true,1,true);
 			$fields[1]->default_order_by="a";
-			$fields[2]= new field_ext("groups.description",$MESSAGES["GROUP_FIELD_DESCRIPTION"],"string",false,false,2,true);
+			$fields[2]= new field_ext("groups.description",$MESSAGES["GROUP_FIELD_DESCRIPTION"],"fstring",false,false,2,true);
 
 			$fields[1]->can_order= true;
 

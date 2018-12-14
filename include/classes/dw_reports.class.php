@@ -55,7 +55,7 @@
 
 			$fields= Array();
 			$fields[]= new field("id_report","","auto",false,true,false,false);
-			$fields[]= new master_field(HOME . "/tools/report_preview.php", $fields[0], "report_name",$MESSAGES["REPORT_FIELD_NAME"],"string",true,true,true,true);
+			$fields[]= new master_field(HOME . "/tools/report_preview.php", $fields[0], "report_name",$MESSAGES["REPORT_FIELD_NAME"],"fstring",true,true,true,true);
 			$fields[1]->add_parameter("show_header=true");
 			$fields[]= new field("id_group",$MESSAGES["REPORT_FIELD_GROUP"],"foreign_key",false,false,true,($USER_LEVEL == 0), $default_group, $group_reference);
 			$fields[]= new field("content",$MESSAGES["REPORT_FIELD_CONTENT"],"html_report",false,false,false,($USER_LEVEL <= 3));
