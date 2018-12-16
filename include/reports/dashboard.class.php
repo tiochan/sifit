@@ -171,7 +171,7 @@
 					}
 
 					//replace tag in content
-					$content=str_replace('{' . $tag . '}', $new_tag, $content);
+					$content=str_replace('{{' . $tag . '}}', $new_tag, $content);
 				}
 				$tag_counter++;
 			}
@@ -187,4 +187,3 @@
 
 		return $return;
 	}
-?>
