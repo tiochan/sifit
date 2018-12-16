@@ -1,8 +1,6 @@
 <?php
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
- * For: Politechnical University of Catalonia (UPC), Spain.
- *
  * @package sifit
  * @subpackage reports
  *
