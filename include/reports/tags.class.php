@@ -126,7 +126,7 @@ class tag {
 
 		// FIRST Step: parse parameters on extra info
 		$this->parse_extrainfo();
-		// SECOND Step: replace parameters / vars set in the forms: "{$<var_name>}", "[$<var_name>]"
+		// SECOND Step: replace parameters / vars set in the forms: "{{$<var_name>}}"
 		$this->value= $this->parse_vars($this->value);
 
 		// THIRD Step: in the forms: "{<tag_name>}"
@@ -160,7 +160,7 @@ class tag {
 				$var_value= $this->get_parameter($var);
 				if($var_value !== false) {
 //					$this->value=str_replace('[$' . $var . ']', $var_value, $value);
-					$this->value=str_replace('{$' . $var . '}', $var_value, $value);
+					$this->value=str_replace('{{$' . $var . '}}', $var_value, $value);
 				} else {
 					echo "*** Warning: Expected parameter $var on tag $this->tag_name, but not found ***<br>";
 				}
@@ -260,7 +260,7 @@ class tag {
 	protected function parse_extrainfo() {
 
 		$this->extrainfo=trim($this->extrainfo_orig);
-		
+
 		// Add the parameters that have been added to the extrainfo property
 		// in order to examine all together.
 		foreach($this->parameters as $parameter => $value) {
@@ -323,7 +323,6 @@ function & get_vars($string, $calc_method="any") {
 	
 	$ret= preg_match_all(VAR_REGEXP, $string, $vars, PREG_PATTERN_ORDER);
 	if(!isset($vars[1])) $vars[1]= array();
-
 	return $vars[1];
 }
 
