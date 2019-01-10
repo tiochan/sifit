@@ -88,7 +88,6 @@ class tag {
 			$user= new user($USER_ID);
 			if($user->level != 0) die("Access denied to tag $this->tag_name");
 		}
-
 		if(count($tag_parts) > 1) $this->extrainfo_orig.= ";" . $tag_parts[1] . ";";
 		$this->extrainfo= $this->extrainfo_orig;
 		$this->get_connection();
@@ -120,7 +119,7 @@ class tag {
 		if(!$this->is_ok) {
 			// Check for live instance for tags: if the tag name itself is the name of the tag type
 			$file= INC_DIR . "/reports/tags/tag_" . $this->tag_name  . ".class.php";
-			if(!file_exists($file)) return "<font color='red'>** TAG \"" . addslashes($this->tag_name) . "\" NOT FOUND **</font>";
+			if(!file_exists($file)) die("** Error: TAG \"" . addslashes($this->tag_name) . "\" not found **"); 
 			$this->calc_method= $this->tag_name;
 		}
 
@@ -137,7 +136,7 @@ class tag {
 		$file= INC_DIR . "/reports/tags/" . $tag_class  . ".class.php";
 		if(!file_exists($file)) {
 			$file= MY_INC_DIR . "/reports/tags/" . $tag_class  . ".class.php";
-			if(!file_exists($file)) return "** Error: TAG type not implemented: $tag_class **";
+			if(!file_exists($file)) die("** Error: TAG type not implemented: $tag_class **");
 		}
 
 		include_once $file;
@@ -162,7 +161,7 @@ class tag {
 //					$this->value=str_replace('[$' . $var . ']', $var_value, $value);
 					$this->value=str_replace('{{$' . $var . '}}', $var_value, $value);
 				} else {
-					echo "*** Warning: Expected parameter $var on tag $this->tag_name, but not found ***<br>";
+					die("** Warning: Expected parameter $var on tag $this->tag_name, but not found **");
 				}
 			}
 
@@ -186,11 +185,10 @@ class tag {
 				if(strpos($tag,"$") !== false ) {	// Expects a variable
 					$new_tag= $this->get_parameter(ltrim($tag, '$'));
 					if($new_tag === false) {
-						echo "*** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found ***<br>";
+						die("** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found **");
 					}
 				} else {											// Is a normal tag
 					if($this->is_a_loop($tag)) exit;
-
 					$tag_instance= new tag($tag,$this->tag_calls);
 					$new_tag= $tag_instance->get_value();
 				}
@@ -260,7 +258,6 @@ class tag {
 	protected function parse_extrainfo() {
 
 		$this->extrainfo=trim($this->extrainfo_orig);
-
 		// Add the parameters that have been added to the extrainfo property
 		// in order to examine all together.
 		foreach($this->parameters as $parameter => $value) {
@@ -270,10 +267,9 @@ class tag {
 		// FIRST Step: explode the extra info into on parameter => value:
 		unset($this->parsed_parameters);
 		$this->parsed_parameters= array();
-		
+
 		// Extract parameters and values
 		$pairs=explode(";",$this->extrainfo);
-
 		foreach($pairs as $pair) {
 			$pair= trim($pair);
 			$elements=explode("=",$pair,2);
@@ -286,10 +282,8 @@ class tag {
 			$value= $this->parse_vars($value);
 			$value= $this->parse_tags($value);
 			$this->parsed_parameters[$elements[0]]= $value;
-
 			if(strtolower($elements[0])=="value") $this->value= $value;
 		}
-		
 		$this->extrainfo="";
 		foreach($this->parsed_parameters as $key => $value) {
 			$this->extrainfo.="$key=$value;";
@@ -347,7 +341,8 @@ function get_tag_value($tag_name) {
  */
 function is_a_tag($string) {
 
-	if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
+//	if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
+	if(preg_match(TAG_REGEXP, $string, $tags)) {
 		return $tags[1];
 	} else {
 		return false;

@@ -35,7 +35,7 @@
 			$this->extrainfo= $extrainfo;
 			$this->db=$db;
 			$this->parameters=array();
-			$this->parse_extrainfo();
+			$this->parse_extrainfo(); 
 		}
 
 		public function get_value() {

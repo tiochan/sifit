@@ -47,6 +47,8 @@
 	global $global_db, $USER_LEVEL;
 	
 	if($show_header) html_header("Tag preview");
+	else html_showHeader();
+
 
 
 	$tag_id= get_http_param("detail_tag_id",false);
