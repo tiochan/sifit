@@ -38,7 +38,7 @@ We can define a new REPORT, which allow html content. We name it "USER_GREETINGS
 
 In this example, when the report USER_GREETING is going to be executed, will replace one by one each TAG, and recursively in depth.
 
-##Flow diagram
+## Flow diagram
 So, following this example:
 1. Find tags at this level. To do that will look for "{ < anything > }", and finds 2 TAGs:
 --> USER_NAME
@@ -72,7 +72,7 @@ The query returns "tiochan@gmail.com". Come back and replace this value on the r
 >	 I will send you tonight useful info tonight to your email address: tiochan@gmail.com."
 
 
-##List of TAGs
+## List of TAGs
 But, which kind of TAGs can I use?
 
 This is a reduced list of pre-defined TAG types that you can find here.
