@@ -31,10 +31,10 @@ To obtaing the value of a TAG, the execution for each TAG is recursive: if a TAG
 For example,
 We can define a new REPORT, which allow html content. We name it "USER_GREETINGS" and add this content:
 
->	"Hello {USER_NAME}, welcome to SIFIC.<br>
+>	"Hello {USER_NAME}, welcome to SIFIT.<br>
 >	 I'm pleased to see you here. <br>
 >	 <br>
->	 I will send you tonight useful info tonight to your email address: {GET_USER_EMAIL}."
+>	 Tonight I will send you useful info to your email address: {GET_USER_EMAIL}."
 
 In this example, when the report USER_GREETING is going to be executed, will replace one by one each TAG, and recursively in depth.
 
