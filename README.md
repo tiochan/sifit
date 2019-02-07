@@ -66,7 +66,7 @@ Contains a sub-tag called "USER_ID", which is a "System var", and is going to be
 ```
 The query returns "tiochan@gmail.com". Come back and replace this value on the report for the TAG name:
 
->	"Hello tiochan, welcome to SIFIC.<br>
+>	"Hello tiochan, welcome to SIFIT.<br>
 >	 I'm pleased to see you here. <br>
 >	 <br>
 >	 I will send you tonight useful info tonight to your email address: tiochan@gmail.com."
