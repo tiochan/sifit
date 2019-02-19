@@ -89,9 +89,9 @@
 			$list_connectors->add_dir("/my_include/reports/conn",".class.php");
 
 			$fields[0]= new field_ext("report_tags.id_tag","","auto",false,true,0,false);
-//			$fields[]= new field_ext("report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"string",true,true,1,true);
+//			$fields[]= new field_ext("report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"fstring",true,true,1,true);
 			$fields[1]= new master_field_ext(HOME . "/tools/report_tag_preview.php","tag_id",$fields[0],"report_tags.tag_name",$MESSAGES["TAGS_FIELD_NAME"],"long_string",true,true,1,true);
-			$fields[1]->add_parameter("show_header=true");
+			$fields[1]->add_parameter("show_header=false");
 
 			$fields[2]= new field_ext("report_tags.calc_method",$MESSAGES["TAGS_FIELD_CALC_METHOD"],"tags_types_list",false,false,2,true);
 			$fields[3]= new field_ext("report_tags.value",$MESSAGES["TAGS_FIELD_VALUE"],"text_tag",true,false,3,true);
@@ -674,7 +674,7 @@
 			} else {
 				echo "<select class='courier' name='" . $this->rand_name . "'
 					onchange='javascript:if(" . $this->rand_name . ".selectedIndex > 1) {
-						var val = \"{\" + " . $this->rand_name . ".value  + \"}\";
+						var val = \"{{\" + " . $this->rand_name . ".value  + \"}}\";
 						$this->object_referenced.value= $this->object_referenced.value + val;
 //						$this->object_referenced.value= val;
 					}'>\n";
@@ -757,7 +757,7 @@
 ?>
  				<select class='courier' name='<?php echo $this->rand_name; ?>'
 					onchange='javascript:if(<?php echo $this->rand_name; ?>.selectedIndex > 1) {
-						var val = "{" + <?php echo $this->rand_name; ?>.value  + "}";
+						var val = "{{" + <?php echo $this->rand_name; ?>.value  + "}}";
 						ckInsertHTML("<?php echo $this->object_referenced; ?>", val);
 					}'>
 <?php

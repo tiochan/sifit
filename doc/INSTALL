@@ -1,16 +1,21 @@
+This is based on SIGVI app, so you can take this document as base for new
+deployments.
+
+
+
 --------------------------------------------------------------------------------
 SYSTEM REQUIREMENTS
 --------------------------------------------------------------------------------
 
-- WEB Server with support for PHP5 scripts
-  The SIGVI has been developed and tested under Apache Web Server, version 2.
+- WEB Server with support for PHP 7 scripts
+  The sifit has been developed and tested under Apache Web Server, version 2.
 
-- PHP5 command line interpreter (PHP 5 CLI)
+- PHP5 command line interpreter (PHP 7 CLI)
 
 - PHP5 Soap module, for report generation
 
 - Relational Database Management System
-  One of these RDBMS: mysql (>4), oracle, postgres, but SIGVI scripts are
+  One of these RDBMS: mysql (>4), oracle, postgres, but sifit scripts are
   developed for mysql. So if you use other, you will have a little extra work.
 
   The PHP5 module must support your RDBMS.
@@ -27,34 +32,32 @@ SYSTEM REQUIREMENTS
 INSTALLATION PROCESS
 --------------------------------------------------------------------------------
 
-Lets assume that your web home is /var/www. Else change for your needs.
+0. Use install_sifit_ubuntu.sh script
+   Check this script and get pieces that you need, or execute it (at your own
+   risk).
 
 
-1. Checking access and moving files
+1. Clone Git repo
 
-   # tar xzvf sigvi-1.9.10-RC3.tgz
+   $ git clone git@github.com:tiochan/syfit.git
 
-   Move the sigvi web dir to your web server htdocs directory, for example:
+   And link that dir to your httpd root dir:
 
-   # mv sigvi /var/www/sigvi
-
-   Give the sigvi web dir access to web server process. By default, if you use
-   apache, it runs under "www-data" user. Check your configuration.
-
-   # chown -R www-data:www-data /var/www/sigvi
-   # chmod -R 750 /var/www/sigvi
+   $ ln -s $PWD/sifit /var/www/html/
 
 
 2. Database creation
 
-   Sigvi can works with many relational DB (see the include/dbms dir), but this
+   Sifit can works with many relational DB (see the include/dbms dir), but this
    sql file is exported from mysql. So if you want to use other type of RDBMS
    you will have to edit it manually. I'm sorry.
 
-   Create the SIGVI database using the root user and the sql file deployed for
-   the current version. For example, this is the sentence for the version 1.9.06:
+   Create the sifit database using the root user and the sql file deployed for
+   the current version:
 
-   # mysql -u root -p < sigvi-1.9.10.sql
+   $ echo "create database sifit" | mysql -p
+   $ mysql -u root -p < doc/sifit_create_user.sql
+   $ mysql -u root -p < doc/sifit.sql
 
 
 3. Customizing the application to your environment
@@ -68,11 +71,11 @@ Lets assume that your web home is /var/www. Else change for your needs.
 
      Those are examples of the HOME definition, depending of the URL:
 
-      - http://server.localdomain.domain/sigvi -->
-        --> define("HOME","/sigvi");      IMPORTANT "/"
+      - http://server.localdomain.domain/sifit -->
+        --> define("HOME","/sifit");      IMPORTANT "/"
 
-      - http://server.localdomain.domain/my_applications/sigvi_r2 -->
-        --> define("HOME","/my_applications/sigvi_r2");
+      - http://server.localdomain.domain/my_applications/sifit -->
+        --> define("HOME","/my_applications/sifit");
 
 	  Example 2, If you have installed on a new virtual host:
       - http://server.localdomain.domain:81/ -->
@@ -83,21 +86,18 @@ Lets assume that your web home is /var/www. Else change for your needs.
    users.
 
 
-4. Setting up the automatic vulnerability load and check process
+4. Setting up the task management
 
-   If you want automatic vulnerability load and automatic vulnerability you have
-   to schedule those tasks.
-
+   Now you will have to enable the task management, adding a line on your
+   crontab.
+   
    On UNIX systems, you have to add a crontab line to one crontab process. The
    process need to be executed under one user that can access to the web dir,
    for example www-data, or root.
 
-      As root, edit the /etc/crontab file, and add the next line, changing the
-      user to which you decided, and checking the path to the cron.sh script:
+   As root, execute this command (check paths):
 
-      [root # vi /etc/crontab]
-
-      30 4 * * *  www-data /usr/bin/php -f /var/www/sigvi/cron/launch_processes.php > /tmp/output-sigvi.txt 2>&1
+   $ echo "0,30 * * * * www-data /usr/bin/php -f /var/www/html/sifit/cron/launch_processes.php > /tmp/output-sifit.txt 2>&1
 
    Execute it manually and check for results.
 
@@ -115,7 +115,7 @@ Lets assume that your web home is /var/www. Else change for your needs.
 
 6. Accessing for first time
 
-   Open a Web browser and go to your location (http://<yourserver>/sigvi)
+   Open a Web browser and go to your location (http://<yourserver>/sifit)
    Login: username "admin", password "admin"
 
      Note: if you get an error like this:
@@ -123,15 +123,8 @@ Lets assume that your web home is /var/www. Else change for your needs.
      Then you have to edit your php config file (usually /etc/php5/apache2/php.ini) and
      set the directive "enable_dl = On".
 
-   Once logged in, you can press the "?" icon to get a little help for
-   beggining.
-
    You can change the configuration manually (better idea) editing the conf/app.conf.php file
    or via Web, using the tools/config.php script.
-
-   For use, please read the user manual at sigvi portal:
-
-     http://sigvi.upcnet.es/doc/manuales/doc.php
 
 
 7. Help
@@ -159,8 +152,8 @@ data manually:
 - rename your current database
 - install the new version
 - try to do a migration process like:
-  > truncate sigvi.<table>;
-  > insert into sigvi.<table> select * from sigvi_old.<table>
+  > truncate sifit.<table>;
+  > insert into sifit.<table> select * from sifit_old.<table>
   for each table like users, groups, servers, server_products, vulnerabilities..
 
 A lot of changes on database structure have been done.

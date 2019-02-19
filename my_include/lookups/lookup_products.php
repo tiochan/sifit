@@ -65,10 +65,10 @@
 	$fields= array();
 
 	$fields[0]= new field("id_product","id","auto",false,true,true,false);
-	$fields[1]= new field("vendor",$MESSAGES["PRODUCT_FIELD_VENDOR"],"string",true,false,true,true);
-	$fields[2]= new field("name",$MESSAGES["PRODUCT_FIELD_NAME"],"string",true,false,true,true);
-	$fields[3]= new field("version",$MESSAGES["PRODUCT_FIELD_VERSION"],"string",true,false,true,true);
-	$fields[4]= new field("full_name",$MESSAGES["PRODUCT_FIELD_FULL"],"string",false,false,false,false);
+	$fields[1]= new field("vendor",$MESSAGES["PRODUCT_FIELD_VENDOR"],"fstring",true,false,true,true);
+	$fields[2]= new field("name",$MESSAGES["PRODUCT_FIELD_NAME"],"fstring",true,false,true,true);
+	$fields[3]= new field("version",$MESSAGES["PRODUCT_FIELD_VERSION"],"fstring",true,false,true,true);
+	$fields[4]= new field("full_name",$MESSAGES["PRODUCT_FIELD_FULL"],"fstring",false,false,false,false);
 
 	$query_adds=" order by vendor";
 

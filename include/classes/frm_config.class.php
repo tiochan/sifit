@@ -59,23 +59,23 @@
 			$this->add_element($general_configuration);
 
 			$fields2= array();
-			$fields2[]= new field("var_APP_VERSION","Application version","string", false, false, true, false, APP_VERSION);
-			$fields2[]= new field("var_APP_NAME","Instance","string", false, false, true, true, APP_NAME);
-			$fields2[]= new field("var_HOME","Instance home directory (web based)","string", false, false, true, true, HOME);
-			$fields2[]= new field("var_SERVER_URL","Server URL","string", false, false, true, true, SERVER_URL);
-			$fields2[]= new field("var_ADM_EMAIL","Administrator e-mail","string", false, false, true, true, ADM_EMAIL);
-			$fields2[]= new field("var_APP_LOGO","Application logo (web based reference)","string", false, false, true, true, APP_LOGO);
-			$fields2[]= new field("var_APP_MINILOGO","Application logo (web based reference)","string", false, false, true, true, APP_MINILOGO);
+			$fields2[]= new field("var_APP_VERSION","Application version","fstring", false, false, true, false, APP_VERSION);
+			$fields2[]= new field("var_APP_NAME","Instance","fstring", false, false, true, true, APP_NAME);
+			$fields2[]= new field("var_HOME","Instance home directory (web based)","fstring", false, false, true, true, HOME);
+			$fields2[]= new field("var_SERVER_URL","Server URL","fstring", false, false, true, true, SERVER_URL);
+			$fields2[]= new field("var_ADM_EMAIL","Administrator e-mail","fstring", false, false, true, true, ADM_EMAIL);
+			$fields2[]= new field("var_APP_LOGO","Application logo (web based reference)","fstring", false, false, true, true, APP_LOGO);
+			$fields2[]= new field("var_APP_MINILOGO","Application logo (web based reference)","fstring", false, false, true, true, APP_MINILOGO);
 
 			$general_configuration2= new field_box("field_box_general_config2", "Global application configuration", $fields2);
 			$this->add_element($general_configuration2);
 
 			$fields3= array();
 			$fields3[]= new field("var_DBType","Database type","list_dbms", false, false, true, true, DBType);
-			$fields3[]= new field("var_DBServer","Database server hostname (or IP)","string", false, false, true, true, DBServer);
-			$fields3[]= new field("var_DBName","Database name","string", false, false, true, true, DBName);
-			$fields3[]= new field("var_DBUser","Database user name","string", false, false, true, true, DBUser);
-			$fields3[]= new field("var_DBPass","Database password","string", false, false, true, true, DBPass);
+			$fields3[]= new field("var_DBServer","Database server hostname (or IP)","fstring", false, false, true, true, DBServer);
+			$fields3[]= new field("var_DBName","Database name","fstring", false, false, true, true, DBName);
+			$fields3[]= new field("var_DBUser","Database user name","fstring", false, false, true, true, DBUser);
+			$fields3[]= new field("var_DBPass","Database password","fstring", false, false, true, true, DBPass);
 
 			$general_configuration3= new field_box("field_box_general_config3", "Database connection", $fields3);
 			

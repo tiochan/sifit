@@ -51,13 +51,13 @@
 	$list->lb["5"]=$MESSAGES["SKILL_5"];
 
 	$fields[]= new field("id_log","#","integer",false,true,true,false);
-	$fields[]= new field("log_date",$MESSAGES["LOGS_FIELD_DATE"],"string", false, false, true, false);
-	$fields[]= new field("id_user",$MESSAGES["LOGS_FIELD_USER_ID"],"string", false, false, true, false);
-	$fields[]= new field("username",$MESSAGES["LOGS_FIELD_USERNAME"],"string", false, false, true, false);
+	$fields[]= new field("log_date",$MESSAGES["LOGS_FIELD_DATE"],"fstring", false, false, true, false);
+	$fields[]= new field("id_user",$MESSAGES["LOGS_FIELD_USER_ID"],"fstring", false, false, true, false);
+	$fields[]= new field("username",$MESSAGES["LOGS_FIELD_USERNAME"],"fstring", false, false, true, false);
 	$fields[]= new field("user_level",$MESSAGES["LOGS_FIELD_USER_LEVEL"],"listbox", false, false, true, false, null, $list);
-	$fields[]= new field("host",$MESSAGES["LOGS_FIELD_HOST"],"string", false, false, true, false);
-	$fields[]= new field("module",$MESSAGES["LOGS_FIELD_MOD"],"string", false, false, true, false);
-	$fields[]= new field("action",$MESSAGES["LOGS_FIELD_REG"],"string", false, false, true, false);
+	$fields[]= new field("host",$MESSAGES["LOGS_FIELD_HOST"],"fstring", false, false, true, false);
+	$fields[]= new field("module",$MESSAGES["LOGS_FIELD_MOD"],"fstring", false, false, true, false);
+	$fields[]= new field("action",$MESSAGES["LOGS_FIELD_REG"],"fstring", false, false, true, false);
 
 	$sb= new search_box(array($fields[1], $fields[2], $fields[3], $fields[4], $fields[5],$fields[6],$fields[7]),"sb_log","Search",2);
 

@@ -25,7 +25,6 @@ class tag_javascript extends tag_element {
 	public function get_value() {
 
 		$this->replace_parameters();
-
 		return "
 		<script type='text/javascript'>
 		" . $this->value . "

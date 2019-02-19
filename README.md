@@ -31,14 +31,14 @@ To obtaing the value of a TAG, the execution for each TAG is recursive: if a TAG
 For example,
 We can define a new REPORT, which allow html content. We name it "USER_GREETINGS" and add this content:
 
->	"Hello {USER_NAME}, welcome to SIFIC.<br>
+>	"Hello {USER_NAME}, welcome to SIFIT.<br>
 >	 I'm pleased to see you here. <br>
 >	 <br>
->	 I will send you tonight useful info tonight to your email address: {GET_USER_EMAIL}."
+>	 Tonight I will send you useful info to your email address: {GET_USER_EMAIL}."
 
 In this example, when the report USER_GREETING is going to be executed, will replace one by one each TAG, and recursively in depth.
 
-##Flow diagram
+## Flow diagram
 So, following this example:
 1. Find tags at this level. To do that will look for "{ < anything > }", and finds 2 TAGs:
 --> USER_NAME
@@ -66,13 +66,13 @@ Contains a sub-tag called "USER_ID", which is a "System var", and is going to be
 ```
 The query returns "tiochan@gmail.com". Come back and replace this value on the report for the TAG name:
 
->	"Hello tiochan, welcome to SIFIC.<br>
+>	"Hello tiochan, welcome to SIFIT.<br>
 >	 I'm pleased to see you here. <br>
 >	 <br>
 >	 I will send you tonight useful info tonight to your email address: tiochan@gmail.com."
 
 
-##List of TAGs
+## List of TAGs
 But, which kind of TAGs can I use?
 
 This is a reduced list of pre-defined TAG types that you can find here.

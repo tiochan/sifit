@@ -36,8 +36,8 @@
 
 			$qry= new datawindow_query();
 
-			$fields[]= new field_ext("app_parameters.parameter",$MESSAGES["PARAMETERS_FIELD_NAME"],"string",true,true,1,true);
-			$fields[]= new field_ext("app_parameters.value",$MESSAGES["PARAMETERS_FIELD_VALUE"],"string",false,false,2,true);
+			$fields[]= new field_ext("app_parameters.parameter",$MESSAGES["PARAMETERS_FIELD_NAME"],"fstring",true,true,1,true);
+			$fields[]= new field_ext("app_parameters.value",$MESSAGES["PARAMETERS_FIELD_VALUE"],"fstring",false,false,2,true);
 			$fields[]= new field_ext("app_parameters.description",$MESSAGES["PARAMETERS_FIELD_DESCRIPTION"],"text",false,false,3,true);
 
 			$fields[0]->reference->size=30;

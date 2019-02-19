@@ -1017,7 +1017,7 @@ th {
 textarea {
     background-color: #E9E9FF;
     font-family: sans-serif, Arial, Helvetica;
-    font-size: 12px;
+    font-size: 14px;
     /*color: #003471;*/
     color: #444;
     border: 1px solid #666;
@@ -1330,7 +1330,7 @@ select.courier {
 textarea.courier {
 	background-color: #FFFFFF;
 	border: 3px solid #aaaaaa;
-	font-family: courier-new;
+	font-family: courier;
 	font-size: 14px;
 	color: #444;
 	padding: 7px;
@@ -1340,8 +1340,8 @@ textarea.courier {
 textarea.mini_courier {
 	background-color: #FFFFFF;
 	border: 1px solid #aaaaaa;
-	font-family: courier-new;
-	font-size: 12px;
+	font-family: courier;
+	font-size: 14px;
 	color: #444;
 	padding: 7px;
 	margin: 3px;

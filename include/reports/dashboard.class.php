@@ -92,88 +92,93 @@
 			$content= $this->content;
 			$tags=get_tags($content);
 
-			$tag_counter=1;
-			foreach($tags as $tag) {
-				{
-					$aux= explode("|", $tag);
-					$tag_name= $aux[0];
-					$timeout= 0;
-					$parameters_array= array();
-					$parameters_str="";
-					$new_tag= "";
-					
-					if(count($aux) > 1) {
+			while((count($tags) > 0)) {
+
+				$tag_counter=1;
+				foreach($tags as $tag) {
+					{
+						$aux= explode("|", $tag);
+						$tag_name= $aux[0];
+						$timeout= 0;
+						$parameters_array= array();
+						$parameters_str="";
+						$new_tag= "";
 						
-						$aux_parameters= explode(";", $aux[1]);
-						foreach($aux_parameters as $parameter) {
-							list($key, $value)= explode("=", $parameter);
-							$parameters_array[$key]=trim($value);
-							$key=strtolower($key);
-							if($key=="refresh_time") $timeout= $value * 1000;
+						if(count($aux) > 1) {
+							
+							$aux_parameters= explode(";", $aux[1]);
+							foreach($aux_parameters as $parameter) {
+								list($key, $value)= explode("=", $parameter);
+								$parameters_array[$key]=trim($value);
+								$key=strtolower($key);
+								if($key=="refresh_time") $timeout= $value * 1000;
+							}
+							
+							$parameters_str="&";
+							unset($aux[0]);
+							$parameters_str.= str_replace(";", "&", $aux[1]);
 						}
-						
-						$parameters_str="&";
-						unset($aux[0]);
-						$parameters_str.= str_replace(";", "&", $aux[1]);
-					}
 
-					if($timeout > 0) {
-						$div_id= "dashboard_tag_id_" . $tag_counter;
-/*
-						$new_tag= "
-							<div id='$div_id'></div>
-							<script>
-								function set_div_" . $div_id . "_value() {
-									var parameters;
-									parameters='detail_tag_name=". $tag_name . "&show_header=false" . $parameters_str . "';
-									url='". SERVER_URL . "/" . HOME . "/tools/report_tag_preview.php',
-									doWorkGET(url, '" . $div_id . "', parameters);
-								}
+						if($timeout > 0) {
+							$div_id= "dashboard_tag_id_" . $tag_counter;
+	/*
+							$new_tag= "
+								<div id='$div_id'></div>
+								<script>
+									function set_div_" . $div_id . "_value() {
+										var parameters;
+										parameters='detail_tag_name=". $tag_name . "&show_header=false" . $parameters_str . "';
+										url='". SERVER_URL . "/" . HOME . "/tools/report_tag_preview.php',
+										doWorkGET(url, '" . $div_id . "', parameters);
+									}
 
 
-								ajax_set_interval('set_div_" . $div_id . "_value', timeout, 1);
-							</script>\n";
-*/
-						$new_tag= '
-							<div id="' . $div_id . '"></div>
-							<script>
-								(function($)
-								{
-									$(document).ready(function()
+									ajax_set_interval('set_div_" . $div_id . "_value', timeout, 1);
+								</script>\n";
+	*/
+							$new_tag= '
+								<div id="' . $div_id . '"></div>
+								<script>
+									(function($)
 									{
-										$.ajaxSetup(
+										$(document).ready(function()
 										{
-											cache: false,
-										});
+											$.ajaxSetup(
+											{
+												cache: false,
+											});
 
-										var parameters="detail_tag_name='. $tag_name . '&show_header=false' . $parameters_str . '";
-										var url="'. SERVER_URL . '/' . HOME . '/tools/report_tag_preview.php?" + parameters;
-										var timeout= ' . $timeout . ' + Math.floor((Math.random() * 10) + 1);
-													
-										var $container = $("#' . $div_id . '");
-										$container.load(url);
-										var refreshId = setInterval(function()
-										{
-											//console.log("Reloading ' . $div_id . ' and waiting " + timeout + " ms");
+											var parameters="detail_tag_name='. $tag_name . '&show_header=false' . $parameters_str . '";
+											var url="'. SERVER_URL . '/' . HOME . '/tools/report_tag_preview.php?" + parameters;
+											var timeout= ' . $timeout . ' + Math.floor((Math.random() * 10) + 1);
+														
+											var $container = $("#' . $div_id . '");
 											$container.load(url);
-										}, timeout);
-									});
-								})(jQuery);
-								</script>
-						';
-					} else {
-						$tag_instance= new tag($tag);
-						
-						foreach($parameters_array as $key => $value) {
-							$tag_instance->add_parameter($key,$value);
+											var refreshId = setInterval(function()
+											{
+												//console.log("Reloading ' . $div_id . ' and waiting " + timeout + " ms");
+												$container.load(url);
+											}, timeout);
+										});
+									})(jQuery);
+									</script>
+							';
+						} else {
+							$tag_instance= new tag($tag);
+							
+							foreach($parameters_array as $key => $value) {
+								$tag_instance->add_parameter($key,$value);
+							}
+							$new_tag= $tag_instance->get_value();
 						}
-						$new_tag= $tag_instance->get_value();
-					}
 
-					//replace tag in content
-					$content=str_replace('{' . $tag . '}', $new_tag, $content);
+						//replace tag in content
+						$content=str_replace('{{' . $tag . '}}', $new_tag, $content);
+					}
+					$tag_counter++;
 				}
-				$tag_counter++;
+
+				$tags=get_tags($content);
 			}
 
 			return $content;
@@ -187,4 +192,3 @@
 
 		return $return;
 	}
-?>

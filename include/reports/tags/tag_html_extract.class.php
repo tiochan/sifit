@@ -22,7 +22,7 @@
 
 			// Overrides URL
 			$url= $this->get_parameter("URL");
-echo "URL: $url";
+
 			if($url != false) {
 				if( (stripos($url, "http://")!==0) and (strpos($url, "https://")!==0) ) $url= "http://" . $url;
 
@@ -32,44 +32,43 @@ echo "URL: $url";
 						'header'=>"Content-Type: text/html; charset=utf-8"
 					)
 				);
-
 				$context = stream_context_create($opts);
 				$this->value= file_get_contents($url,false,$context);
-echo "Value: " . $this->value;
+				
 				if($this->value=="") return "";
-
-				echo "hola";
+				
 				$this->DOM= new DOMDocument();
 				if(!@$this->DOM->loadHTML($this->value)) {
+					echo "** Error processing the call to URL **";
 					// TO-DO
 				}
 			}
-
+			
 			$search= $this->get_parameter("SEARCH");
 			$search= $search != false ? $search : "";
-
+			
 			$object_path= $this->get_parameter("OBJECT_PATH");
-
+			
 			$object_type= $this->get_parameter("OBJECT_TYPE");
 			if(!$object_type) $object_type = "div";
-
+			
 			$object_id= $this->get_parameter("OBJECT_ID");
 			$object_class= $this->get_parameter("OBJECT_CLASS");
-
+			
 			$regexp_user= $this->get_parameter("REGEXP");
-
+			
 			$get_styles= $this->get_parameter("INCLUDE_STYLES");
 			$get_styles= ( ($get_styles == 1) or ($get_styles === false) );
 			$get_scripts= $this->get_parameter("INCLUDE_SCRIPTS");
 			$get_scripts= ( ($get_scripts == 1) or ($get_scripts === false) );
-
+			
 			$object_attribute= ($object_id !== false) ? "id" : ( ($object_class !== false) ? "class" : "" );
 			$object_value= ($object_id !== false) ? $object_id : ( ($object_class !== false) ? $object_class : "" );
-
+			
 			if($object_path != false) {
-
+				
 				$return_value="";
-
+				
 				if($get_styles) {
 					$return_value.=DOMgetTags($this->DOM, "link", "type", "text/css") . "\n";
 

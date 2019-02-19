@@ -1,8 +1,6 @@
 <?php
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
- * For: Politechnical University of Catalonia (UPC), Spain.
- *
  * @package sifit
  * @subpackage reports
  *
@@ -30,7 +28,7 @@
 		}
 
 		protected function change_field_properties(&$field) {
-			$field->reference= new string();
+			$field->reference= new fstring();
 			$field->reference->size=100;
 			$field->alias="URL";
 		}

@@ -1,8 +1,6 @@
 <?php
 /**
- * @author Jorge Novoa (jorge.novoa@upcnet.es)
- * For: Politechnical University of Catalonia (UPC), Spain.
- *
+ * @author Sebastian Gomez (tiochan@gmail.com)
  * @package sifit
  * @subpackage reports
  *
@@ -10,80 +8,79 @@
  *
  */
 
-	include_once INC_DIR . "/reports/tags/tag_element.class.php";
-	include_once INC_DIR . "/forms/field_types/listbox.inc.php";
+include_once INC_DIR . "/reports/tags/tag_element.class.php";
 
 
-	class tag_script extends tag_element {
-		protected $show_connection= false;
+class tag_script extends tag_element {
 
-		public function get_value() {
+	protected $show_connection= false;
 
-			$this->replace_parameters();
 
-			$filename= INC_DIR . "/reports/scripts/" . $this->value . ".php";
-			if(!file_exists($filename)) {
-				$filename= MY_INC_DIR . "/reports/scripts/" . $this->value . ".php";
-				if(!file_exists($filename)) {
-					return "** Error: can't locate script file " . $filename . " **";
-				}
-			}
+	public function get_value() {
 
-			include_once $filename;
+		$this->replace_parameters();
 
-			$function = $this->value;
-			$result= $function($this->parameters);
+		$command= str_replace("\r", "", $this->value);
+		$rand_name= "/tmp/rand_file_" . rand(1000,9999) . ".tmp";
+		file_put_contents($rand_name, $command);
+		chmod($rand_name, 0700);
+		exec($rand_name, $output, $exit_code);
+		$output= implode("\n", $output);
 
-			return $result;
-		}
+		unlink($rand_name);
 
-		static public function check_value($value) {
+		if($exit_code) {
+			$message= "** Error ** The command exited with a exit code $exit_code. Check your output.<br>\n" .
+				"Try redirecting the error output to the standard ouput to see the content.<br>\n";
+		} else $message="";
 
-			$filename= INC_DIR . "/reports/scripts/" . $value . ".php";
-			if(!file_exists($filename)) {
-				$filename= MY_INC_DIR . "/reports/scripts/" . $value . ".php";
-				if(!file_exists($filename)) {
-					html_showError("** Error: can't locate script file " . $filename . " **");
-					return 0;
-				}
-			}
-
-			include_once $filename;
-			if(!function_exists($value)) {
-				html_showError("** Error: script " . $filename . " does not contains the function $value **");
-				return 0;
-			}
-
-			return 1;
-		}
-
-		protected function change_field_properties(&$field) {
-			$field->reference= new scripts_list();
-			$field->alias="Script";
-		}
+		return($message . $output);
 	}
 
-	class scripts_list extends listbox {
-
-		public function scripts_list() {
-
-			parent::listbox();
-			$this->lb[""]="";
-
-			$files= read_dir(INC_DIR . "/reports/scripts",".php");
-
-			foreach($files as $file) {
-				$scripts_name= substr($file,0,strpos($file,"."));
-				$this->lb[$scripts_name]= $file;
-			}
-
-			$files= read_dir(MY_INC_DIR . "/reports/scripts",".php");
-
-			foreach($files as $file) {
-				$scripts_name= substr($file,0,strpos($file,"."));
-				$this->lb[$scripts_name]= $file;
-			}
-
-			asort($this->lb);
-		}
+	protected function show_extra_help() {
+?>
+		<p>
+			To define a new script, the first line must contains the shebang used to allow the system to execute the content.<br>
+			For instance:<br>
+			<i>#!/bin/sh</i><br>
+			<i>#!/usr/bin/env python</i><br>
+			<i>#!/usr/local/bin/python</i><br>
+			<br>
+			In some cases, to debug your script you can redirect the error output to the standard output:<br>
+			- For shell script you can use:<br>
+			<i>exec 2>&1</i>
+			<br>
+			<!--
+			<b>Extra parameters</b><br>
+			<br>
+			You can also add some extra parameters into the <i>'additional information field'</i>, separated by ';'.<br>
+			There are some examples of extra parameters:<br>
+			<br>
+			<table class='data_box_rows'>
+				<tr>
+					<th class='data_box_rows'>Parameter</th>
+					<th class='data_box_rows'>Default</th>
+					<th class='data_box_rows'>Description</th>
+				</tr>
+				<tr>
+					<td class='data_box_cell'>CSV=[true|false]</td>
+					<td class='data_box_cell'>false</td>
+					<td class='data_box_cell'>If you need values to be returned as CSV string, instead HTML table.</td>
+				</tr>
+				<tr>
+					<td class='data_box_cell'>SHOW_NO_DATA=[true|false]</td>
+					<td class='data_box_cell'>false</td>
+					<td class='data_box_cell'>If true and the query does not retuns any data, a string with this situation is shown.</td>
+				</tr>
+				<tr>
+					<td class='data_box_cell'>SHOW_FIELD_NAMES=[true|false]</td>
+					<td class='data_box_cell'>false</td>
+					<td class='data_box_cell'>For CSV output, if true then the first row is set with the field names..</td>
+				</tr>
+			</table>
+			-->
+		</p>
+<?php
 	}
+
+}

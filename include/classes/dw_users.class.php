@@ -71,17 +71,17 @@
 			$null_ref=null;
 
 			$fields[0]= new field("id_user","","auto",false,true,false,false);
-			$fields[1]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"string",true,true,true,true);
+			$fields[1]= new field("username",$MESSAGES["USER_FIELD_USERNAME"],"fstring",true,true,true,true);
 			$fields[2]= new field("password",$MESSAGES["USER_FIELD_PASSWORD"],"password",false,false,false,true);
-			$fields[3]= new field("external",$MESSAGES["USER_FIELD_EXTERNAL"],"bool",true,false,true,($USER_LEVEL <= 3),0);
-			$fields[4]= new field("name",$MESSAGES["USER_FIELD_NAME"],"string",true,false,true,true);
-			$fields[5]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"string",false,false,true,true);
+			$fields[3]= new field("external",$MESSAGES["USER_FIELD_EXTERNAL"],"fbool",true,false,true,($USER_LEVEL <= 3),0);
+			$fields[4]= new field("name",$MESSAGES["USER_FIELD_NAME"],"fstring",true,false,true,true);
+			$fields[5]= new field("surname",$MESSAGES["USER_FIELD_SURNAME"],"fstring",false,false,true,true);
 			$fields[6]= new field("id_group",$MESSAGES["USER_FIELD_GROUP"],"foreign_key",true,false,($USER_LEVEL < 3),($USER_LEVEL < 3),$USER_GROUP,$group_reference);
 			$fields[7]= new field("level",$MESSAGES["USER_FIELD_LEVEL"],"listbox",true,false,true,($USER_LEVEL == 0),5,$list);
-			$fields[8]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"string",true,false,true,true);
-			$fields[9]= new field("hiredate",$MESSAGES["USER_FIELD_HIREDATE"],"string",false,false,true,false);
+			$fields[8]= new field("email",$MESSAGES["USER_FIELD_EMAIL"],"fstring",true,false,true,true);
+			$fields[9]= new field("hiredate",$MESSAGES["USER_FIELD_HIREDATE"],"fstring",false,false,true,false);
 			$fields[10]= new field("lang",$MESSAGES["USER_FIELD_LANG"],"list_lang",true,false,true,true,"en");
-			$fields[11]= new field("send_notifications",$MESSAGES["USER_FIELD_SEND_NOTIFICATIONS"],"bool",true,false,true,true,1);
+			$fields[11]= new field("send_notifications",$MESSAGES["USER_FIELD_SEND_NOTIFICATIONS"],"fbool",true,false,true,true,1);
 
 			$sb= new search_box(array($fields[1], $fields[3], $fields[4], $fields[5], $fields[6], $fields[7]),"search_alert",$MESSAGES["SEARCH"]);
 

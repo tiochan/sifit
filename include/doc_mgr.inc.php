@@ -310,7 +310,7 @@
 			if(!$component->exists_element("DETAIL", $ret)) {
 				include_once SYSHOME . "/objects/classes/detail.class.php";
 
-				$detail= &new detail($doc_reference, $template_reference);
+				$detail= new detail($doc_reference, $template_reference);
 				$form->add_element($detail);
 			} else {
 				$form->add_element($component);

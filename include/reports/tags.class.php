@@ -1,8 +1,6 @@
 <?php
 /**
- * @authors Jorge Novoa, Sebastian Gomez (tiochan@gmail.com)
- * For: Politechnical University of Catalonia (UPC), Spain.
- *
+ * @author Sebastian Gomez (tiochan@gmail.com)
  * @package lib
  * @subpackage reports
  *
@@ -27,8 +25,8 @@
  define("VAR_REGEXP2", '#\{\$(.?[^{]*[^}])}#is');
 */
 
-define("TAG_REGEXP",  '#\{([^\$\s].[^\{\}]*)}#is');
-define("VAR_REGEXP", '#\{\$([^\s].[^\{\}]*)\}#is');
+define("TAG_REGEXP", '#\{\{([^\$\s].[^\{\}]*)\}\}#is');
+define("VAR_REGEXP", '#\{\{\$([^\s].[^\{\}]*)\}\}#is');
 
 class tag {
 
@@ -40,7 +38,7 @@ class tag {
 	public $extrainfo;
 	protected $extrainfo_orig;
 	public $connection;
-	public $is_public;
+	public $is_public=false;
 	public $parameters;
 	public $parsed_parameters;
 
@@ -69,31 +67,30 @@ class tag {
 
 		$this->is_ok= false;
 
-		$tag_parts=explode("|",$tag_name);
-		$tag_name= $tag_parts[0];
-
+		$tag_parts=explode("|",$tag_name,2);
+		$this->tag_name= $tag_parts[0];
 
 		// Get tag definition
-		$query="SELECT id_tag, tag_name, calc_method, description, value, extrainfo, connection, is_public FROM report_tags WHERE tag_name ='$tag_name'";
+		$query="SELECT id_tag, calc_method, description, value, extrainfo, connection, is_public FROM report_tags WHERE tag_name ='$this->tag_name'";
 		$res= $global_db->dbms_query($query);
 
-		if(! $global_db->dbms_check_result($res)) return;
+		if($global_db->dbms_check_result($res)) {
+			list($this->id_tag, $this->calc_method, $this->description, $this->value, $this->extrainfo_orig, $this->connection, $this->is_public)= $global_db->dbms_fetch_row($res);
+			$this->value=stripslashes($this->value);
 
-		list($this->id_tag, $this->tag_name, $this->calc_method, $this->description, $this->value, $this->extrainfo_orig, $this->connection, $this->is_public)= $global_db->dbms_fetch_row($res);
-		$this->value=stripslashes($this->value);
-
-		$global_db->dbms_free_result($res);
+			$global_db->dbms_free_result($res);
+			$this->is_ok= true;
+		} else {
+			// The tag does not exists.
+		}
 
 		if(!$this->is_public) {
 			$user= new user($USER_ID);
 			if($user->level != 0) die("Access denied to tag $this->tag_name");
 		}
-
 		if(count($tag_parts) > 1) $this->extrainfo_orig.= ";" . $tag_parts[1] . ";";
 		$this->extrainfo= $this->extrainfo_orig;
-
 		$this->get_connection();
-		$this->is_ok= true;
 	}
 
 
@@ -119,26 +116,31 @@ class tag {
 
 		// TODO: the return value in case of error should be an error code, e.g. "false"
 		// This means check the return code on the recursive TAG call.
-		if(!$this->is_ok) return "<font color='red'>** TAG \"" . addslashes($this->tag_name) . "\" NOT FOUND **</font>";
+		if(!$this->is_ok) {
+			// Check for live instance for tags: if the tag name itself is the name of the tag type
+			$file= INC_DIR . "/reports/tags/tag_" . $this->tag_name  . ".class.php";
+			if(!file_exists($file)) die("** Error: TAG \"" . addslashes($this->tag_name) . "\" not found **"); 
+			$this->calc_method= $this->tag_name;
+		}
 
 		// FIRST Step: parse parameters on extra info
 		$this->parse_extrainfo();
-		// SECOND Step: replace parameters / vars set in the forms: "{$<var_name>}", "[$<var_name>]"
+		// SECOND Step: replace parameters / vars set in the forms: "{{$<var_name>}}"
 		$this->value= $this->parse_vars($this->value);
 
 		// THIRD Step: in the forms: "{<tag_name>}"
 		$this->value= $this->parse_tags($this->value);
 
 		// Create an instance of the tag type
-		$tag_name= "tag_" . $this->calc_method;
-		$file= INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
+		$tag_class= "tag_" . $this->calc_method;
+		$file= INC_DIR . "/reports/tags/" . $tag_class  . ".class.php";
 		if(!file_exists($file)) {
-			$file= MY_INC_DIR . "/reports/tags/" . $tag_name  . ".class.php";
-			if(!file_exists($file)) return "** Error: TAG type not implemented: $tag_name **";
+			$file= MY_INC_DIR . "/reports/tags/" . $tag_class  . ".class.php";
+			if(!file_exists($file)) die("** Error: TAG type not implemented: $tag_class **");
 		}
 
 		include_once $file;
-		$this->tag_ref= new $tag_name($this->value, $this->extrainfo, $this->db);
+		$this->tag_ref= new $tag_class($this->value, $this->extrainfo, $this->db);
 
 		$value= $this->tag_ref->get_value();
 
@@ -157,9 +159,9 @@ class tag {
 				$var_value= $this->get_parameter($var);
 				if($var_value !== false) {
 //					$this->value=str_replace('[$' . $var . ']', $var_value, $value);
-					$this->value=str_replace('{$' . $var . '}', $var_value, $value);
+					$this->value=str_replace('{{$' . $var . '}}', $var_value, $value);
 				} else {
-					echo "*** Warning: Expected parameter $var on tag $this->tag_name, but not found ***<br>";
+					die("** Warning: Expected parameter $var on tag $this->tag_name, but not found **");
 				}
 			}
 
@@ -183,17 +185,16 @@ class tag {
 				if(strpos($tag,"$") !== false ) {	// Expects a variable
 					$new_tag= $this->get_parameter(ltrim($tag, '$'));
 					if($new_tag === false) {
-						echo "*** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found ***<br>";
+						die("** Warning: Expected TAG-Parameter $tag on tag $this->tag_name, but not found **");
 					}
 				} else {											// Is a normal tag
 					if($this->is_a_loop($tag)) exit;
-
 					$tag_instance= new tag($tag,$this->tag_calls);
 					$new_tag= $tag_instance->get_value();
 				}
 
 				//replace tag in report
-				$value=str_replace('{' . $tag . '}', $new_tag, $value);
+				$value=str_replace('{{' . $tag . '}}', $new_tag, $value);
 			}
 
 			// If no changes where made, then exit loop
@@ -257,7 +258,6 @@ class tag {
 	protected function parse_extrainfo() {
 
 		$this->extrainfo=trim($this->extrainfo_orig);
-		
 		// Add the parameters that have been added to the extrainfo property
 		// in order to examine all together.
 		foreach($this->parameters as $parameter => $value) {
@@ -267,10 +267,9 @@ class tag {
 		// FIRST Step: explode the extra info into on parameter => value:
 		unset($this->parsed_parameters);
 		$this->parsed_parameters= array();
-		
+
 		// Extract parameters and values
 		$pairs=explode(";",$this->extrainfo);
-
 		foreach($pairs as $pair) {
 			$pair= trim($pair);
 			$elements=explode("=",$pair,2);
@@ -283,12 +282,12 @@ class tag {
 			$value= $this->parse_vars($value);
 			$value= $this->parse_tags($value);
 			$this->parsed_parameters[$elements[0]]= $value;
+			if(strtolower($elements[0])=="value") $this->value= $value;
 		}
-		
 		$this->extrainfo="";
 		foreach($this->parsed_parameters as $key => $value) {
 			$this->extrainfo.="$key=$value;";
-			$this->value=str_replace('{$' . $key . '}', $value, $this->value);
+			$this->value=str_replace('{{$' . $key . '}}', $value, $this->value);
 		}
 	}
 }
@@ -306,7 +305,7 @@ function & get_tags($string) {
 	$tags= array();
 
 	foreach($tags_tmp[1] as $tag) {
-		if(strpos($string, "{" . $tag) !== false) $tags[]= $tag;
+		if(strpos($string, "{{" . $tag) !== false) $tags[]= $tag;
 	}
 
 	return $tags;
@@ -318,7 +317,6 @@ function & get_vars($string, $calc_method="any") {
 	
 	$ret= preg_match_all(VAR_REGEXP, $string, $vars, PREG_PATTERN_ORDER);
 	if(!isset($vars[1])) $vars[1]= array();
-
 	return $vars[1];
 }
 
@@ -343,10 +341,10 @@ function get_tag_value($tag_name) {
  */
 function is_a_tag($string) {
 
-	if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
+//	if(preg_match('#\{([a-z0-9\-_]*?)\}#is', $string, $tags)) {
+	if(preg_match(TAG_REGEXP, $string, $tags)) {
 		return $tags[1];
 	} else {
 		return false;
 	}
 }
-?>

@@ -53,11 +53,11 @@
 			// TO block
 			$fields= array();
 			if($USER_LEVEL == 0) {
-				$fields[]= new field("mail_from","From","string", false, false, true, true);
+				$fields[]= new field("mail_from","From","fstring", false, false, true, true);
 				$fields[0]->reference->size=50;
-				$fields[]= new field("mail_to","To","string", false, false, true, true);
+				$fields[]= new field("mail_to","To","fstring", false, false, true, true);
 				$fields[1]->reference->size=50;
-				$fields[]= new field("mail_subject","Subject","string",false, false, true, true);
+				$fields[]= new field("mail_subject","Subject","fstring",false, false, true, true);
 				$fields[2]->reference->size=75;
 				$fields[]= new field("mail_msg","Text","html",false, false, true, true);
 			}

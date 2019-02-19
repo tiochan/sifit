@@ -1,8 +1,6 @@
 <?php
 /**
- * @author Jorge Novoa (jorge.novoa@upcnet.es)
- * For: Politechnical University of Catalonia (UPC), Spain.
- *
+ * @author Sebastian Gomez (tiochan@gmail.com)
  * @package lib
  * @subpackage reports
  *
@@ -142,18 +140,15 @@
 			foreach($tags as $tag) {
 				{
 					$tag_instance= new tag($tag);
-
-					$new_tag= $tag_instance->get_value();
-
+					$tag_value= $tag_instance->get_value();
 					//replace tag in report
-					$content=str_replace('{' . $tag . '}', $new_tag, $content);
+					$content=str_replace("{{" . $tag . "}}", $tag_value, $content);
 				}
 			}
 
 			return $content;
 		}
 	}
-
 
 
 	class subscriptions_to_launch {
