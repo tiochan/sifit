@@ -7,10 +7,10 @@ deployments.
 SYSTEM REQUIREMENTS
 --------------------------------------------------------------------------------
 
-- WEB Server with support for PHP5 scripts
+- WEB Server with support for PHP 7 scripts
   The sifit has been developed and tested under Apache Web Server, version 2.
 
-- PHP5 command line interpreter (PHP 5 CLI)
+- PHP5 command line interpreter (PHP 7 CLI)
 
 - PHP5 Soap module, for report generation
 
@@ -31,6 +31,11 @@ SYSTEM REQUIREMENTS
 --------------------------------------------------------------------------------
 INSTALLATION PROCESS
 --------------------------------------------------------------------------------
+
+0. Use install_sifit_ubuntu.sh script
+   Check this script and get pieces that you need, or execute it (at your own
+   risk).
+
 
 1. Clone Git repo
 
