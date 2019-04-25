@@ -32,6 +32,11 @@ define("FE_DOWN_SELECTED_ICON", ICONS . "/down.png");
 define("FE_LOOKUP_ICON", ICONS . "/find.png");
 define("FE_DATEPICK_ICON", ICONS . "/cal.png");
 define("FE_DEFAULT_ACTION_ICON", ICONS . "/run.png");
+define("FE_SAVE_ICON", ICONS . "/document-save.png");
+define("FE_OK_ICON", ICONS . "/button.png");
+define("FE_CANCEL_ICON", ICONS . "/stop.png");
+define("FE_PREVIEW_ICON", ICONS . "/file.png");
+
 define("MAX_LINES_PER_PAGE", 25);
 // Where is going to be oppened the detail?
 define("DETAIL_TARGET","SELF");		// [ NEW | SELF ]

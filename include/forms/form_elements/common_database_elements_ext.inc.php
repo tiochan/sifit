@@ -234,11 +234,13 @@
 				$this->pre_show_form($for_update);
 				echo "</td></tr>";
 			}
+
 ?>
 				<tr><td colspan="3">
 					<table class="data_box_rows" cellspacing="0">
 						<tr class='data_box_rows_list_header'>
-							<th colspan='2' class='data_box_rows_list_header'><?php  echo $message; ?></th>
+							<th class='data_box_rows_list_header'><?php echo $message; ?></th>
+							<th class='data_box_rows_list_header'><?php $this->show_insert_buttons($action); ?></th>
 						</tr>
 <?php
 			$field_list= $this->datawindow_query->get_visible_fields(!$for_update, $for_update);
@@ -250,11 +252,9 @@
 ?>
 						<tr>
 							<td class='data_box_rows_list_footer' colspan='2'>
-								<center>
 <?php
 			$this->show_insert_buttons($action);
 ?>
-		    	   				</center>
 		       				</td>
        					</tr>
 					</table>
