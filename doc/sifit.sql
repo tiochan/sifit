@@ -197,7 +197,7 @@ CREATE TABLE `report_tags` (
   `is_protected` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_tag`),
   UNIQUE KEY `tag_name` (`tag_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=282 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,6 +250,7 @@ CREATE TABLE `tasks` (
   `id_ptl` mediumint(9) NOT NULL AUTO_INCREMENT,
   `task_name` varchar(60) NOT NULL,
   `script` varchar(60) NOT NULL,
+  `parameters` text,
   `description` varchar(255) DEFAULT NULL,
   `periodicity` varchar(25) DEFAULT NULL,
   `hour` varchar(5) DEFAULT NULL,
@@ -264,7 +265,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,'02. Report launcher','/include/cron/report_launcher.php','','daily','07:00',1);
+INSERT INTO `tasks` VALUES (1,'Report launcher','/include/cron/report_launcher.php','','','daily','07:00',1);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-19 23:14:11
+-- Dump completed on 2019-04-25 11:20:41
