@@ -1,6 +1,5 @@
 <?php
 
-
 define("QUIET",true);
 define("SHOW_MENU",false);
 

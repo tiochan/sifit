@@ -1340,8 +1340,8 @@ textarea.courier {
 textarea.mini_courier {
 	background-color: #FFFFFF;
 	border: 1px solid #aaaaaa;
-	font-family: courier;
-	font-size: 14px;
+	font-family: courier-new;
+	font-size: 16px;
 	color: #444;
 	padding: 7px;
 	margin: 3px;
@@ -1359,7 +1359,7 @@ div.user_info {
 }
 
 img.action {
-    height: 16px;
+    height: 24px;
     cursor:default;
     cursor:pointer;
     margin:1px;

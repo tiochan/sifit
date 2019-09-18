@@ -12,15 +12,18 @@
 
 	Table definition
 
-	+----------------+--------------+------+-----+---------+----------------+
-	| Field          | Type         | Null | Key | Default | Extra          |
-	+----------------+--------------+------+-----+---------+----------------+
-	| id_ptl         | mediumint(9) | NO   | PRI | NULL    | auto_increment |
-	| processes_name | varchar(60)  | NO   |     |         |                |
-	| script         | varchar(60)  | NO   |     |         |                |
-	| description    | varchar(255) | YES  |     | NULL    |                |
-	| periodicity    | tinyint(1)   | YES  |     | NULL    |                |
-	+----------------+--------------+------+-----+---------+----------------+
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id_ptl      | mediumint(9) | NO   | PRI | NULL    | auto_increment |
+| task_name   | varchar(60)  | NO   |     | NULL    |                |
+| script      | varchar(60)  | NO   |     | NULL    |                |
+| parameters  | text         | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| periodicity | varchar(25)  | YES  |     | NULL    |                |
+| hour        | varchar(5)   | YES  |     | NULL    |                |
+| send_report | tinyint(4)   | NO   |     | 0       |                |
++-------------+--------------+------+-----+---------+----------------+
 */
 
 	include_once "../include/init.inc.php";
@@ -56,10 +59,11 @@
 			$fields[]= new field_ext("tasks.id_ptl","","auto",false,true,0,false);
 			$fields[]= new field_ext("tasks.task_name",$MESSAGES["TASKS_FIELD_NAME"],"fstring",true,false,1,true,$null_reference);
 			$fields[]= new field_ext("tasks.script",$MESSAGES["TASKS_FIELD_SCRIPT"],"listbox",true,false,2,true,$null_reference,$scripts);
-			$fields[]= new field_ext("tasks.description",$MESSAGES["TASKS_FIELD_DESCRIPTION"],"text",false,false,3,true,$null_reference);
-			$fields[]= new field_ext("tasks.periodicity",$MESSAGES["TASKS_FIELD_PERIODICITY"],"listbox",true,false,4,true,$null_reference,$periodicity);
-			$fields[]= new field_ext("tasks.hour",$MESSAGES["TASKS_FIELD_HOUR"],"list_time",false,false,5,true);
-			$fields[]= new field_ext("tasks.send_report",$MESSAGES["TASKS_FIELD_SEND_REPORT"],"fbool",false,false,6,true);
+			$fields[]= new field_ext("tasks.parameters","Params.","text",false,false,3,true,$null_reference);
+			$fields[]= new field_ext("tasks.description",$MESSAGES["TASKS_FIELD_DESCRIPTION"],"text",false,false,4,true,$null_reference);
+			$fields[]= new field_ext("tasks.periodicity",$MESSAGES["TASKS_FIELD_PERIODICITY"],"listbox",true,false,5,true,$null_reference,$periodicity);
+			$fields[]= new field_ext("tasks.hour",$MESSAGES["TASKS_FIELD_HOUR"],"list_time",false,false,6,true);
+			$fields[]= new field_ext("tasks.send_report",$MESSAGES["TASKS_FIELD_SEND_REPORT"],"fbool",false,false,7,true);
 
 			// Creation of table and add it to query
 			$can_insert= ($USER_LEVEL == 0);

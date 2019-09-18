@@ -69,6 +69,8 @@
 
 			$is_admin= $USER_LEVEL == 0;
 
+			$this->show_buttons_on_top=true;
+
 			// Datawindow Query
 			$qry= new datawindow_query();
 
@@ -94,7 +96,7 @@
 			$fields[1]->add_parameter("show_header=false");
 
 			$fields[2]= new field_ext("report_tags.calc_method",$MESSAGES["TAGS_FIELD_CALC_METHOD"],"tags_types_list",false,false,2,true);
-			$fields[3]= new field_ext("report_tags.value",$MESSAGES["TAGS_FIELD_VALUE"],"text_tag",true,false,3,true);
+			$fields[3]= new field_ext("report_tags.value",$MESSAGES["TAGS_FIELD_VALUE"],"text_tag",false,false,3,true);
 			$fields[4]= new field_ext("report_tags.description",$MESSAGES["TAGS_FIELD_DESCRIPTION"],"short_text", false,false,4,true);
 			$fields[5]= new field_ext("report_tags.extrainfo",$MESSAGES["TAGS_FIELD_EXTRAINFO"],"text",false,false,5,true);
 			$fields[6]= new field_ext("report_tags.connection","SQL Connect","list_dir",false,false,5,true,null,$list_connectors);
@@ -146,6 +148,20 @@
 			if($can_manage) {
 				$this->add_global_action("add new tag","","","show_create_tags");
 			}
+		}
+
+		protected function show_custom_insert_buttons($action) {
+			$shadow_id= get_http_post_param("row_id_" . $this->doc_name, -1);
+			$dw_action= get_http_post_param("dw_action_" . $this->doc_name, 0);
+			$row_id= $this->shadow->get_shadowed_id($shadow_id, $dw_action);
+
+			echo $this->create_row_redirection("Preview", HOME . "/tools/report_tag_preview.php?detail_tag_id=" . $row_id, FE_PREVIEW_ICON);
+			return 1;
+		}
+
+		protected function action_save_and_close($row_id) {
+			parent::action_update_row($row_id);
+			return -1;
 		}
 
 		function show_create_tags($text,$img,$action) {
@@ -591,7 +607,7 @@
 						$description= "Execute any program from system directory";
 						break;
 					case "script":
-						$description= "An application PHP script on the [include | my_include]/report/scripts directories";
+						$description= "Any kind of script thatn can run on the system. Add the shebang on the first line!";
 						break;
 					default:
 						$description= "User defined";
@@ -778,4 +794,3 @@
 <?php
 		}
 	}
-?>

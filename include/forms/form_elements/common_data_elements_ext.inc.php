@@ -200,7 +200,7 @@
 			if($img=="") {
 				$ret= $link . $label . "</a>\n";
 			} else {
-				$ret= "<center>$link<img border='0' class='action' src='$img' alt='$label' title='$label' align='absmiddle'></a></center>\n";
+				$ret= "$link<img border='0' class='action' src='$img' alt='$label' title='$label' align='absmiddle'></a>\n";
 			}
 
 			return $ret;
@@ -526,12 +526,18 @@
 			global $MESSAGES;
 
 			if($this->allow_save_and_continue) {
-				echo $this->create_global_action($MESSAGES["BUTTON_SAVE"],$action);
-				echo $this->create_row_action($MESSAGES["BUTTON_CLOSE"],"retrieve",-1);
+				echo $this->create_global_action($MESSAGES["BUTTON_SAVE"],$action, FE_SAVE_ICON);
+				echo $this->create_row_action($MESSAGES["BUTTON_CLOSE"],"retrieve",-1, FE_CANCEL_ICON);
 			} else {
-				echo $this->create_global_action($MESSAGES["BUTTON_ACCEPT"],$action);
-				echo $this->create_row_action($MESSAGES["BUTTON_CANCEL"],"retrieve",-1);
+				echo $this->create_global_action($MESSAGES["BUTTON_ACCEPT"],$action, FE_OK_ICON);
+				echo $this->create_row_action($MESSAGES["BUTTON_CANCEL"],"retrieve",-1, FE_CANCEL_ICON);
 			}
+
+			$this->show_custom_insert_buttons($action);
+		}
+
+		protected function show_custom_insert_buttons($action) {
+			// To be overloaded by user needs
 		}
 
 		protected function show_select_box($row_id) {
