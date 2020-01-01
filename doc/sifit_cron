@@ -1,0 +1,3 @@
+# SIFIT cron file
+0,30 * * * * www-data /usr/bin/php -f /var/www/html//cron/launch_processes.php > /tmp/output-sifit.txt 2>&1
+
