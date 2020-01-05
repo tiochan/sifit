@@ -1,0 +1,1 @@
+../dockers/sifit-fe-builder/access_console.sh

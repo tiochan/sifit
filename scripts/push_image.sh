@@ -1,0 +1,1 @@
+../dockers/sifit-fe-builder/push_image.sh
