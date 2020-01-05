@@ -1,1 +1,3 @@
-../dockers/sifit-fe-builder/stop_all.sh
+#!/bin/sh
+
+docker rm -f $(docker ps -aq)

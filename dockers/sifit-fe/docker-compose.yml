@@ -1,9 +1,0 @@
-version: '3'
-services:
-        sifit-fe:
-                build: .
-                image: tiochan/sifit:sifit-fe-v0.1
-                network_mode: host
-                ports:
-                - '80:80'
-

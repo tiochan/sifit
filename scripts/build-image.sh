@@ -1,1 +1,6 @@
-../dockers/sifit-fe-builder/build-image.sh
+#!/bin/sh
+
+# rm sifit.tgz
+# tar czvf sifit.tgz ../../../sifit
+docker-compose build
+

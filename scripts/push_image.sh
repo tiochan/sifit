@@ -1,1 +1,2 @@
-../dockers/sifit-fe-builder/push_image.sh
+docker login
+docker push tiochan/sifit:sifit-fe-v0.1
