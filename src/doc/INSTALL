@@ -97,7 +97,7 @@ INSTALLATION PROCESS
 
    As root, execute this command (check paths):
 
-   $ echo "0,30 * * * * www-data /usr/bin/php -f /var/www/html/sifit/cron/launch_processes.php > /tmp/output-sifit.txt 2>&1
+   $ echo "0,30 * * * * www-data /usr/bin/php -f /var/www/html/sifit/cron/launch_processes.php" > /tmp/output-sifit.txt 2>&1
 
    Execute it manually and check for results.
 
