@@ -1,5 +1,5 @@
-FROM php:7.4-apache
-#FROM php:7.4-fpm
+FROM php:7.2-apache
+#FROM php:7.2-fpm
 
 ARG DB_HOST="127.0.0.1"
 
@@ -11,7 +11,6 @@ RUN apt-get update &&\
 
 WORKDIR /var/www/html/
 RUN docker-php-ext-install mysqli gd
-RUN docker-php-ext-enable mysqli gd
 
 ADD src /var/www/html/
 # RUN cp /var/www/html/doc/sifit_cron /etc/cron.d/
