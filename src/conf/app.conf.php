@@ -187,13 +187,13 @@ define("APP_MINILOGO", "/my_include/images/report_ico.png");
  * If you define all users as "not external", then their password will be
  * checked with their own at the users table (as usual).
  ******************************************************************************/
-define("authMethod","ldap");    // OPTIONAL [ ldap | dbms | <define your own> ]
-define("ldapServer","ldaps://ldap.upc.edu");                       // OPTIONAL
-define("ldapUserBaseDn","ou=users,dc=upc,dc=edu");                         // OPTIONAL
-define("ldapGroupBaseDn","ou=groups,dc=upc,dc=edu");                         // OPTIONAL
-define("ldapBindUser","cn=ldap.upc");                                  // OPTIONAL
-define("ldapBindPasswd","conldapnexio");                               // OPTIONAL
+define("authMethod","dbms");    // OPTIONAL [ ldap | dbms | <define your own> ]
+define("ldapServer","ldaps://your.ldap.server");                       // OPTIONAL
+define("ldapUserBaseDn","ou=users,dc=DC,dc=DC");                       // OPTIONAL
+define("ldapGroupBaseDn","ou=groups,dc=DC,dc=DC");                     // OPTIONAL
+define("ldapBindUser","cn=ldap.user");                                 // OPTIONAL
+define("ldapBindPasswd","ldap.password");                              // OPTIONAL
 
 // Don't change this:
 $GLOBALS["config_included"]="yes";		// Don't delete this sentence !!
-?>
+
