@@ -30,8 +30,8 @@ ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_ROOT_USER=root
 
 RUN sed -i 's#"HOME","/sifit"#"HOME",""#g' /var/www/html/conf/app.conf.php
-RUN sed -i "s#\"DBServer\",\"localhost\"#\"DBServer\",\"$DB_HOST\"#g" /var/www/html/conf/app.conf.php
-RUN sed -i "s#DEVELOPMENT\",true#DEVELOPMENT\",false#g" /var/www/html/conf/app.conf.php
-RUN sed -i "s#DEBUG\",true#DEBUG\",false#g" /var/www/html/conf/app.conf.php
+RUN sed -i "s#\"DBServer\", \"localhost\"#\"DBServer\", \"$DB_HOST\"#g" /var/www/html/conf/app.conf.php
+RUN sed -i "s#DEVELOPMENT\", true#DEVELOPMENT\", false#g" /var/www/html/conf/app.conf.php
+RUN sed -i "s#DEBUG\", true#DEBUG\", false#g" /var/www/html/conf/app.conf.php
 
 
