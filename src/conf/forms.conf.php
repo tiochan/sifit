@@ -42,4 +42,3 @@ define("MAX_LINES_PER_PAGE", 25);
 define("DETAIL_TARGET","SELF");		// [ NEW | SELF ]
 // CSV exports
 define("CSV_SEPARATOR","|");		// The separator which will be used to separate fields into the CSV file
-?>

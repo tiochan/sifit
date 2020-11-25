@@ -67,4 +67,3 @@ $emo[]='/<\/LINK>/i';			$emh[]= '</a>';				$emt[]='';
 $emo[]='/<FONT ([^>]*)>/i';		$emh[]= '<font ${1}>';		$emt[]='';
 $emo[]='/<\/FONT>/i';			$emh[]= '</font>';			$emt[]='';
 $emo[]='/<IMAGE ([^>]*)>/i';	$emh[]= '<\IMG ${1}\>';		$emt[]='';
-?>

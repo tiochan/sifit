@@ -1,5 +1,5 @@
 // Get the HTTP Object
-function getHTTPObject(){
+function getHTTPObject() {
 	if (window.ActiveXObject) return new ActiveXObject("Microsoft.XMLHTTP");
 	else if (window.XMLHttpRequest) return new XMLHttpRequest();
 	else {
@@ -9,20 +9,20 @@ function getHTTPObject(){
 }
 
 // Change the value of the outputText field
-function setOutput(){
-	if(httpObject.readyState == 4) {
-//		document.getElementById('outputText').value = httpObject.responseText;
-//		document.getElementById("output").value=httpObject.responseText;
-		document.getElementById("livesearch").innerHTML=httpObject.responseText;
-		document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+function setOutput() {
+	if (httpObject.readyState == 4) {
+		//		document.getElementById('outputText').value = httpObject.responseText;
+		//		document.getElementById("output").value=httpObject.responseText;
+		document.getElementById("livesearch").innerHTML = httpObject.responseText;
+		document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
 	}
 }
 
 // Implement business logic
-function doWorkGET(origin, destination, parameters){
-	if (parameters.length==0) {
-		document.getElementById(destination).innerHTML="";
-		document.getElementById(destination).style.border="0px";
+function doWorkGET(origin, destination, parameters) {
+	if (parameters.length == 0) {
+		document.getElementById(destination).innerHTML = "";
+		document.getElementById(destination).style.border = "0px";
 		return;
 	}
 	httpObject = getHTTPObject();
@@ -34,10 +34,10 @@ function doWorkGET(origin, destination, parameters){
 }
 
 // http://www.captain.at/howto-ajax-form-post-request.php
-function doWorkPOST(origin, destination, parameters){
-	if (parameters.length==0) {
-		document.getElementById(destination).innerHTML="";
-		document.getElementById(destination).style.border="0px";
+function doWorkPOST(origin, destination, parameters) {
+	if (parameters.length == 0) {
+		document.getElementById(destination).innerHTML = "";
+		document.getElementById(destination).style.border = "0px";
 		return;
 	}
 	httpObject = getHTTPObject();

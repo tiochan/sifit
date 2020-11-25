@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -32,14 +33,14 @@
  *
  ******************************************************************************/
 
-define("HOME","/sifit");                                         // EDIT
-define("SERVER_URL","http://localhost");                         // EDIT
+define("HOME", "/sifit");                                         // EDIT
+define("SERVER_URL", "http://localhost");                         // EDIT
 
-define("ADM_EMAIL","Sebastian Gomez <tiochan@gmail.com>");       // EDIT
-define("APP_NAME","SIFIT");
+define("ADM_EMAIL", "Sebastian Gomez <tiochan@gmail.com>");       // EDIT
+define("APP_NAME", "SIFIT");
 
-define("APP_DESCRIPTION","Sysops Intelligence For IT");
-define("APP_VERSION","SIFIT - SysOps Intelligence For IT, 1.5.01 Beta");
+define("APP_DESCRIPTION", "Sysops Intelligence For IT");
+define("APP_VERSION", "SIFIT - SysOps Intelligence For IT, 1.5.01 Beta");
 
 
 /*******************************************************************************
@@ -51,11 +52,11 @@ define("APP_VERSION","SIFIT - SysOps Intelligence For IT, 1.5.01 Beta");
  *
  ******************************************************************************/
 
-define("DBType","mysqli");
-define("DBServer","localhost");
-define("DBName","sifit");
-define("DBUser","sifit_user");
-define("DBPass","s1f1t@713");
+define("DBType", "mysqli");
+define("DBServer", "localhost");
+define("DBName", "sifit");
+define("DBUser", "sifit_user");
+define("DBPass", "s1f1t@713");
 
 
 /*******************************************************************************
@@ -110,19 +111,19 @@ define("DBPass","s1f1t@713");
  *
  ******************************************************************************/
 
-define("MAINTENANCE",false);
-define("DEVELOPMENT",true);
-define("DEMO_VERSION",false);
-define("BUG_TRACKING",true);
-define("DEBUG",true);
-define("DEBUG_QUERY",false);
-define("AUDIT",true);
-define("AUDIT_LVL",1);
+define("MAINTENANCE", false);
+define("DEVELOPMENT", true);
+define("DEMO_VERSION", false);
+define("BUG_TRACKING", true);
+define("DEBUG", true);
+define("DEBUG_QUERY", false);
+define("AUDIT", true);
+define("AUDIT_LVL", 1);
 #define("DATE_FORMAT","y-m-d");
-define("DATE_FORMAT","d-m-y");
+define("DATE_FORMAT", "d-m-y");
 
-define("APP_DEFAULT_LOCALE","C");
-define("APP_LC_LOCALE","es_ES");
+define("APP_DEFAULT_LOCALE", "C");
+define("APP_LC_LOCALE", "es_ES");
 define("MON_DECIMAL_SEP", ",");
 define("MON_THOUSAND_SEP", ".");
 
@@ -130,8 +131,8 @@ define("MON_THOUSAND_SEP", ".");
 // if you want to delete some of the "default" hosts, you must remenber
 // on future "/include" library upgrades.
 global $MAINTENANCE_ALLOWED_HOSTS;
-$MAINTENANCE_ALLOWED_HOSTS= array("127.0.0.1");
-if(!CLI_MODE) $MAINTENANCE_ALLOWED_HOSTS[]= $_SERVER['SERVER_ADDR'];
+$MAINTENANCE_ALLOWED_HOSTS = array("127.0.0.1");
+if (!CLI_MODE) $MAINTENANCE_ALLOWED_HOSTS[] = $_SERVER['SERVER_ADDR'];
 
 /*******************************************************************************
  *	A little bit about appearance
@@ -159,11 +160,11 @@ if(!CLI_MODE) $MAINTENANCE_ALLOWED_HOSTS[]= $_SERVER['SERVER_ADDR'];
  *
  ******************************************************************************/
 
-define("CRONO_ENABLED",true);
-define("LANG","en");
-define("SHOW_LOGOS",true);
+define("CRONO_ENABLED", true);
+define("LANG", "en");
+define("SHOW_LOGOS", true);
 define("SHOW_FOOTER", false);
-define("APP_THEME","default");
+define("APP_THEME", "default");
 define("APP_LOGO", "/my_include/images/report_ico.png");
 define("APP_MINILOGO", "/my_include/images/report_ico.png");
 
@@ -187,13 +188,12 @@ define("APP_MINILOGO", "/my_include/images/report_ico.png");
  * If you define all users as "not external", then their password will be
  * checked with their own at the users table (as usual).
  ******************************************************************************/
-define("authMethod","dbms");    // OPTIONAL [ ldap | dbms | <define your own> ]
-define("ldapServer","ldaps://your.ldap.server");                       // OPTIONAL
-define("ldapUserBaseDn","ou=users,dc=DC,dc=DC");                       // OPTIONAL
-define("ldapGroupBaseDn","ou=groups,dc=DC,dc=DC");                     // OPTIONAL
-define("ldapBindUser","cn=ldap.user");                                 // OPTIONAL
-define("ldapBindPasswd","ldap.password");                              // OPTIONAL
+define("authMethod", "dbms");    // OPTIONAL [ ldap | dbms | <define your own> ]
+define("ldapServer", "ldaps://your.ldap.server");                       // OPTIONAL
+define("ldapUserBaseDn", "ou=users,dc=DC,dc=DC");                       // OPTIONAL
+define("ldapGroupBaseDn", "ou=groups,dc=DC,dc=DC");                     // OPTIONAL
+define("ldapBindUser", "cn=ldap.user");                                 // OPTIONAL
+define("ldapBindPasswd", "ldap.password");                              // OPTIONAL
 
 // Don't change this:
-$GLOBALS["config_included"]="yes";		// Don't delete this sentence !!
-
+$GLOBALS["config_included"] = "yes";		// Don't delete this sentence !!

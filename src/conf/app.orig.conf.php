@@ -170,4 +170,3 @@ define("ldapBaseDn","ou=users,dc=your_dc");
 
 // Don't change this:
 $GLOBALS["config_included"]="yes";		// Don't delete this sencence !!!!!!!
-?>
