@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -15,27 +16,28 @@
  *
  */
 
-	include_once INC_DIR . "/reports/graphs/generic_graph_bar_double.php";
+include_once INC_DIR . "/reports/graphs/generic_graph_bar_double.php";
 
 
-	class generic_graph_bar_double_90 extends generic_graph_bar_double {
+class generic_graph_bar_double_90 extends generic_graph_bar_double
+{
 
-		public function render($filename="") {
+	public function render($filename = "")
+	{
 
-			$this->vertical= true;
-			$this->double= true;
+		$this->vertical = true;
+		$this->double = true;
 
-			$this->width= 600;
-			$this->height= 500;
+		$this->width = 600;
+		$this->height = 500;
 
-			$this->top = 60;
-			$this->bottom = 30;
-			$this->left = 200;
-			$this->right = 30;
+		$this->top = 60;
+		$this->bottom = 30;
+		$this->left = 200;
+		$this->right = 30;
 
-			$this->create_graph("BarPlot",$filename);
-			$this->graph->Stroke($filename);
-			unset($this->graph);
-		}
+		$this->create_graph("BarPlot", $filename);
+		$this->graph->Stroke($filename);
+		unset($this->graph);
 	}
-?>
+}

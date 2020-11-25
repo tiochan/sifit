@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -10,22 +11,24 @@
  */
 
 
-	class data_source {
+class data_source
+{
 
-		public $id_source;
+	public $id_source;
 
-		protected $is_ok;
+	protected $is_ok;
 
 
-		public function data_source($id_source) {
+	public function data_source($id_source)
+	{
 
-			global $global_db;
-			global $USER_ID;
+		global $global_db;
+		global $USER_ID;
 
-			if(!isset($USER_ID)) die("User id is required but is not defined at tag declaration");
+		if (!isset($USER_ID)) die("User id is required but is not defined at tag declaration");
 
-			$this->is_ok= false;
-/*
+		$this->is_ok = false;
+		/*
 			// Get tag definition
 			$query="SELECT id_tag, tag_name, calc_method, description, value, extrainfo, is_public FROM report_tags WHERE tag_name ='$tag_name'";
 			$res= $global_db->dbms_query($query);
@@ -42,20 +45,22 @@
 				if($user->level != 0) die("Access denied to tag $this->tag_name");
 			}
 */
-			$this->is_ok= true;
-		}
+		$this->is_ok = true;
+	}
 
-		public function add_parameter($parameter,$value) {
-//			$this->extrainfo.=";$parameter=$value";
-		}
+	public function add_parameter($parameter, $value)
+	{
+		//			$this->extrainfo.=";$parameter=$value";
+	}
 
-		/**
-		 * Get the real value of TAG
-		 *
-		 * @return (constant, string, url or operation)
-		 */
-		public function get_value() {
-/*
+	/**
+	 * Get the real value of TAG
+	 *
+	 * @return (constant, string, url or operation)
+	 */
+	public function get_value()
+	{
+		/*
 			if(!$this->is_ok) return "<font color='red'>** TAG $this->tag_name NOT FOUND **<font>";
 
 			$tags=get_tags($this->value);
@@ -85,6 +90,5 @@
 
 			return $value;
 		*/
-		}
 	}
-?>
+}

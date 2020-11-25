@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -15,16 +16,18 @@
  *
  */
 
-	include_once INC_DIR . "/reports/graphs/generic_query_graph.class.php";
-	include_once INC_DIR . "/reports/graphs/generic_graph_bar.php";
+include_once INC_DIR . "/reports/graphs/generic_query_graph.class.php";
+include_once INC_DIR . "/reports/graphs/generic_graph_bar.php";
 
 
-	class generic_graph_bar_acc extends generic_graph {
+class generic_graph_bar_acc extends generic_graph
+{
 
-		public function render($filename="") {
+	public function render($filename = "")
+	{
 
-			$this->accumulated= true;
+		$this->accumulated = true;
 
-			parent::render($filename);
-		}
+		parent::render($filename);
 	}
+}
