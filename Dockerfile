@@ -2,7 +2,7 @@ FROM php:7.4-apache
 
 ARG DB_HOST="127.0.0.1"
 
-MAINTAINER Sebas <sebastian.g.moran@gmail.com>
+LABEL Author="Sebas <sebastian.g.moran@gmail.com>"
 
 RUN apt-get update &&\
     apt-get install --no-install-recommends --assume-yes --quiet \
