@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  *
@@ -13,11 +14,13 @@ include_once INC_DIR . "/reports/tags/tag_element.class.php";
 include_once INC_DIR . "/forms/field_types/basic.inc.php";
 
 
-class tag_text extends tag_element {
+class tag_text extends tag_element
+{
 
-	protected $show_connection= false;
+	protected $show_connection = false;
 
-	protected function change_field_properties(&$field) {
-		$field->reference= new ftext();
+	protected function change_field_properties(&$field)
+	{
+		$field->reference = new ftext();
 	}
 }

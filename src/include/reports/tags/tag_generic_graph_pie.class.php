@@ -1,7 +1,7 @@
 <?php
+
 /**
- * @author Jorge Novoa (jorge.novoa@upcnet.es)
- * For: Politechnical University of Catalonia (UPC), Spain.
+ * @author Sebastian Gomez (tiochan@gmail.com)
  *
  * @package sifit
  * @subpackage reports
@@ -10,23 +10,25 @@
  *
  */
 
-	include_once INC_DIR . "/reports/tags/tag_generic_graph.class.php";
+include_once INC_DIR . "/reports/tags/tag_generic_graph.class.php";
 
 
-	class tag_generic_graph_pie extends tag_generic_graph {
+class tag_generic_graph_pie extends tag_generic_graph
+{
 
-		public function get_value() {
+	public function get_value()
+	{
 
-			global $USER_ID;
+		global $USER_ID;
 
-			$this->replace_parameters();
+		$this->replace_parameters();
 
-			$grapher= INC_DIR . "/reports/graphs/generic_graph_pie.php";
-			if(!file_exists($grapher)) return "** Error: Can't locate generic grapher **";
+		$grapher = INC_DIR . "/reports/graphs/generic_graph_pie.php";
+		if (!file_exists($grapher)) return "** Error: Can't locate generic grapher **";
 
-			include_once $grapher;
+		include_once $grapher;
 
-			$gr= new generic_graph_pie($this->value, $this->parameters, $this->db);
-			return $gr->getImageTag();
-		}
+		$gr = new generic_graph_pie($this->value, $this->parameters, $this->db);
+		return $gr->getImageTag();
 	}
+}

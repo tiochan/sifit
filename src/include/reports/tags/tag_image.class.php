@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -10,77 +11,83 @@
  *
  */
 
-	include_once INC_DIR . "/forms/field_types/listbox.inc.php";
-	include_once INC_DIR . "/reports/tags/tag_element.class.php";
+include_once INC_DIR . "/forms/field_types/listbox.inc.php";
+include_once INC_DIR . "/reports/tags/tag_element.class.php";
 
 
-	class tag_image extends tag_element {
+class tag_image extends tag_element
+{
 
-		protected $show_connection= false;
+	protected $show_connection = false;
 
 
-		public function get_value() {
+	public function get_value()
+	{
 
-			$this->replace_parameters();
+		$this->replace_parameters();
 
-			$filename= SYSHOME . "/" . $this->value;
+		$filename = SYSHOME . "/" . $this->value;
 
-			return paste_image($filename);
-		}
-
-		static public function check_value($value) {
-
-			$filename= SYSHOME . "/" . $value;
-			if(!file_exists($filename)) {
-				html_showError("Can't find image file: $filename");
-				return 0;
-			}
-
-			return 1;
-		}
-
-		protected function change_field_properties(&$field) {
-			$field->reference= new image_tag();
-			$field->alias= "Image";
-		}
+		return paste_image($filename);
 	}
 
-	/**
-	 * Images must be located under application dir (SYSHOME)
-	 *
-	 */
-	class image_tag extends listbox {
+	static public function check_value($value)
+	{
 
-		protected $image_dirs=array(
-				IMAGES,
-				ICONS,
-				MY_IMAGES,
-				MY_ICONS,
-				"/include/reports/images",
-				"/my_include/reports/images"
-			);
+		$filename = SYSHOME . "/" . $value;
+		if (!file_exists($filename)) {
+			html_showError("Can't find image file: $filename");
+			return 0;
+		}
 
-		public function image_tag() {
+		return 1;
+	}
 
-			parent::listbox();
+	protected function change_field_properties(&$field)
+	{
+		$field->reference = new image_tag();
+		$field->alias = "Image";
+	}
+}
 
-			$this->lb[""]="";
+/**
+ * Images must be located under application dir (SYSHOME)
+ *
+ */
+class image_tag extends listbox
+{
+
+	protected $image_dirs = array(
+		IMAGES,
+		ICONS,
+		MY_IMAGES,
+		MY_ICONS,
+		"/include/reports/images",
+		"/my_include/reports/images"
+	);
+
+	public function image_tag()
+	{
+
+		parent::listbox();
+
+		$this->lb[""] = "";
 
 
-			$len= strlen(SYSHOME);
+		$len = strlen(SYSHOME);
 
-			foreach($this->image_dirs as $dir) {
+		foreach ($this->image_dirs as $dir) {
 
-				if(file_exists(SYSHOME . $dir)) {
+			if (file_exists(SYSHOME . $dir)) {
 
-					$files= read_dir(SYSHOME . $dir);
-					foreach($files as $file) {
-						if(is_dir($dir . "/" . $file)) continue;
-						$this->lb[$dir . "/" . $file]= $dir . "/" . $file;
-					}
+				$files = read_dir(SYSHOME . $dir);
+				foreach ($files as $file) {
+					if (is_dir($dir . "/" . $file)) continue;
+					$this->lb[$dir . "/" . $file] = $dir . "/" . $file;
 				}
 			}
-
-			asort($this->lb);
 		}
+
+		asort($this->lb);
 	}
+}

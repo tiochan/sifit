@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * @package sifit
@@ -11,33 +12,36 @@
 include_once INC_DIR . "/reports/tags/tag_element.class.php";
 
 
-class tag_script extends tag_element {
+class tag_script extends tag_element
+{
 
-	protected $show_connection= false;
+	protected $show_connection = false;
 
 
-	public function get_value() {
+	public function get_value()
+	{
 
 		$this->replace_parameters();
 
-		$command= str_replace("\r", "", $this->value);
-		$rand_name= "/tmp/rand_file_" . rand(1000,9999) . ".tmp";
+		$command = str_replace("\r", "", $this->value);
+		$rand_name = "/tmp/rand_file_" . rand(1000, 9999) . ".tmp";
 		file_put_contents($rand_name, $command);
 		chmod($rand_name, 0700);
 		exec($rand_name, $output, $exit_code);
-		$output= implode("\n", $output);
+		$output = implode("\n", $output);
 
 		unlink($rand_name);
 
-		if($exit_code) {
-			$message= "** Error ** The command exited with a exit code $exit_code. Check your output.<br>\n" .
+		if ($exit_code) {
+			$message = "** Error ** The command exited with a exit code $exit_code. Check your output.<br>\n" .
 				"Try redirecting the error output to the standard ouput to see the content.<br>\n";
-		} else $message="";
+		} else $message = "";
 
-		return($message . $output);
+		return ($message . $output);
 	}
 
-	protected function show_extra_help() {
+	protected function show_extra_help()
+	{
 ?>
 		<p>
 			To define a new script, the first line must contains the shebang used to allow the system to execute the content.<br>
@@ -82,5 +86,4 @@ class tag_script extends tag_element {
 		</p>
 <?php
 	}
-
 }
