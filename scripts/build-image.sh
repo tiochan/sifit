@@ -15,4 +15,3 @@ DB_HOST=$1
 
 # --force-rm
 docker-compose build --build-arg DB_HOST="${DB_HOST}"
-

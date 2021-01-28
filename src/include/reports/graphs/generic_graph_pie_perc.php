@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -15,14 +16,16 @@
  *
  */
 
-	include_once INC_DIR . "/reports/graphs/generic_graph_pie.php";
+include_once INC_DIR . "/reports/graphs/generic_graph_pie.php";
 
 
-	class generic_graph_pie_perc extends generic_graph_pie {
+class generic_graph_pie_perc extends generic_graph_pie
+{
 
-		public function generic_graph_pie_perc($value,$extra_info, &$db) {
+	public function generic_graph_pie_perc($value, $extra_info, &$db)
+	{
 
-			$this->percent=true;
-			parent::generic_graph_pie($value,$extra_info, $db);
-		}
+		$this->percent = true;
+		parent::generic_graph_pie($value, $extra_info, $db);
 	}
+}

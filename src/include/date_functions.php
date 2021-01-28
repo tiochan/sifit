@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -8,159 +9,151 @@
  *
  */
 
-	function stringToDate($date){
+function stringToDate($date)
+{
 
-		$dateElements = split(' ', $date);
+	$dateElements = explode(' ', $date);
 
-		$dateDateElements = split('/', $dateElements[0]);
-		$dateTimeElements = split(':', $dateElements[1]);
+	$dateDateElements = explode('/', $dateElements[0]);
+	$dateTimeElements = explode(':', $dateElements[1]);
 
-		// Get unix timestamp for date
-		return mktime($dateTimeElements[0], $dateTimeElements[1], $dateTimeElements[2], $dateDateElements[1], $dateDateElements[0], $dateDateElements[2]);
+	// Get unix timestamp for date
+	return mktime($dateTimeElements[0], $dateTimeElements[1], $dateTimeElements[2], $dateDateElements[1], $dateDateElements[0], $dateDateElements[2]);
+}
+
+function getDateDifference($dateFrom, $dateTo, $unit = 'd')
+{
+
+	$difference = null;
+
+	$dateFromElements = explode(' ', $dateFrom);
+	$dateToElements = explode(' ', $dateTo);
+
+	$dateFromDateElements = explode('/', $dateFromElements[0]);
+	$dateFromTimeElements = explode(':', $dateFromElements[1]);
+	$dateToDateElements = explode('/', $dateToElements[0]);
+	$dateToTimeElements = explode(':', $dateToElements[1]);
+
+	// Get unix timestamp for both dates
+
+	$date1 = mktime($dateFromTimeElements[0], $dateFromTimeElements[1], $dateFromTimeElements[2], $dateFromDateElements[1], $dateFromDateElements[0], $dateFromDateElements[2]);
+	$date2 = mktime($dateToTimeElements[0], $dateToTimeElements[1], $dateToTimeElements[2], $dateToDateElements[1], $dateToDateElements[0], $dateToDateElements[2]);
+
+	if ($date1 > $date2) {
+		return null;
 	}
 
-	function getDateDifference($dateFrom, $dateTo, $unit = 'd') {
+	$diff = $date2 - $date1;
 
-		$difference = null;
+	$days = 0;
+	$hours = 0;
+	$minutes = 0;
+	$seconds = 0;
 
-		$dateFromElements = split(' ', $dateFrom);
-		$dateToElements = split(' ', $dateTo);
+	if ($diff % 86400 <= 0)  // there are 86,400 seconds in a day
+	{
+		$days = $diff / 86400;
+	}
 
-		$dateFromDateElements = split('/', $dateFromElements[0]);
-		$dateFromTimeElements = split(':', $dateFromElements[1]);
-		$dateToDateElements = split('/', $dateToElements[0]);
-		$dateToTimeElements = split(':', $dateToElements[1]);
+	if ($diff % 86400 > 0) {
+		$rest = ($diff % 86400);
+		$days = ($diff - $rest) / 86400;
 
-		// Get unix timestamp for both dates
+		if ($rest % 3600 > 0) {
+			$rest1 = ($rest % 3600);
+			$hours = ($rest - $rest1) / 3600;
 
-		$date1 = mktime($dateFromTimeElements[0], $dateFromTimeElements[1], $dateFromTimeElements[2], $dateFromDateElements[1], $dateFromDateElements[0], $dateFromDateElements[2]);
-		$date2 = mktime($dateToTimeElements[0], $dateToTimeElements[1], $dateToTimeElements[2], $dateToDateElements[1], $dateToDateElements[0], $dateToDateElements[2]);
-
-		if( $date1 > $date2 )
-		{
-			return null;
-		}
-
-		$diff = $date2 - $date1;
-
-		$days = 0;
-		$hours = 0;
-		$minutes = 0;
-		$seconds = 0;
-
-		if ($diff % 86400 <= 0)  // there are 86,400 seconds in a day
-		{
-			$days = $diff / 86400;
-		}
-
-		if($diff % 86400 > 0)
-		{
-			$rest = ($diff % 86400);
-			$days = ($diff - $rest) / 86400;
-
-			if( $rest % 3600 > 0 )
-			{
-				$rest1 = ($rest % 3600);
-				$hours = ($rest - $rest1) / 3600;
-
-				if( $rest1 % 60 > 0 )
-				{
-					$rest2 = ($rest1 % 60);
-					$minutes = ($rest1 - $rest2) / 60;
-					$seconds = $rest2;
-				}
-				else
-				{
-					$minutes = $rest1 / 60;
-				}
+			if ($rest1 % 60 > 0) {
+				$rest2 = ($rest1 % 60);
+				$minutes = ($rest1 - $rest2) / 60;
+				$seconds = $rest2;
+			} else {
+				$minutes = $rest1 / 60;
 			}
-			else
-			{
-				$hours = $rest / 3600;
-			}
+		} else {
+			$hours = $rest / 3600;
 		}
+	}
 
-		switch($unit)
-		{
-			case 'd':
-			case 'D':
+	switch ($unit) {
+		case 'd':
+		case 'D':
 
-				$partialDays = 0;
+			$partialDays = 0;
 
-				$partialDays += ($seconds / 86400);
-				$partialDays += ($minutes / 1440);
-				$partialDays += ($hours / 24);
+			$partialDays += ($seconds / 86400);
+			$partialDays += ($minutes / 1440);
+			$partialDays += ($hours / 24);
 
-				$difference = $days + $partialDays;
+			$difference = $days + $partialDays;
 
-				break;
+			break;
 
-			case 'h':
-			case 'H':
+		case 'h':
+		case 'H':
 
-				$partialHours = 0;
+			$partialHours = 0;
 
-				$partialHours += ($seconds / 3600);
-				$partialHours += ($minutes / 60);
+			$partialHours += ($seconds / 3600);
+			$partialHours += ($minutes / 60);
 
-				$difference = $hours + ($days * 24) + $partialHours;
+			$difference = $hours + ($days * 24) + $partialHours;
 
-				break;
+			break;
 
-			case 'm':
-			case 'M':
+		case 'm':
+		case 'M':
 
-				$partialMinutes = 0;
+			$partialMinutes = 0;
 
-				$partialMinutes += ($seconds / 60);
+			$partialMinutes += ($seconds / 60);
 
-				$difference = $minutes + ($days * 1440) + ($hours * 60) + $partialMinutes;
+			$difference = $minutes + ($days * 1440) + ($hours * 60) + $partialMinutes;
 
-				break;
+			break;
 
-			case 's':
-			case 'S':
+		case 's':
+		case 'S':
 
-				$difference = $seconds + ($days * 86400) + ($hours * 3600) + ($minutes * 60);
+			$difference = $seconds + ($days * 86400) + ($hours * 3600) + ($minutes * 60);
 
-				break;
+			break;
 
-			case 'a':
-			case 'A':
+		case 'a':
+		case 'A':
 
-				$difference = array (
+			$difference = array(
 				"days" => $days,
 				"hours" => $hours,
 				"minutes" => $minutes,
 				"seconds" => $seconds
-				);
+			);
 
-				break;
-		}
-
-		return $difference;
+			break;
 	}
 
-	function f_isDate($i_date, $format) {
-		unset ($pattern);
+	return $difference;
+}
 
-		switch ($format) {
-			case "YYYY-mm-dd" :
-				$pattern = "([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})";
-				break;
-			case "YYYY-mm" :
-				$pattern = "([0-9]{4})-([0-9]{1,2})";
-				break;
-			case "dd-mm-YYYY" :
-				$pattern = "([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})";
-				break;
-			default :
-		}
+function f_isDate($i_date, $format)
+{
+	unset($pattern);
 
-		if (!isset ($pattern))
+	switch ($format) {
+		case "YYYY-mm-dd":
+			$pattern = "([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})";
+			break;
+		case "YYYY-mm":
+			$pattern = "([0-9]{4})-([0-9]{1,2})";
+			break;
+		case "dd-mm-YYYY":
+			$pattern = "([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})";
+			break;
+		default:
+	}
+
+	if (!isset($pattern))
 		return false;
 
-		return ereg($pattern, $i_date);
-	}
-
-?>
+	return preg_match($pattern, $i_date);
+}

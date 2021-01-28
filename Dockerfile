@@ -2,7 +2,7 @@ FROM php:7.4-apache
 
 ARG DB_HOST="127.0.0.1"
 
-MAINTAINER Sebas <sebastian.g.moran@gmail.com>
+LABEL Author="Sebas <sebastian.g.moran@gmail.com>"
 
 RUN apt-get update &&\
     apt-get install --no-install-recommends --assume-yes --quiet \
@@ -30,8 +30,6 @@ ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_ROOT_USER=root
 
 RUN sed -i 's#"HOME","/sifit"#"HOME",""#g' /var/www/html/conf/app.conf.php
-RUN sed -i "s#\"DBServer\",\"localhost\"#\"DBServer\",\"$DB_HOST\"#g" /var/www/html/conf/app.conf.php
-RUN sed -i "s#DEVELOPMENT\",true#DEVELOPMENT\",false#g" /var/www/html/conf/app.conf.php
-RUN sed -i "s#DEBUG\",true#DEBUG\",false#g" /var/www/html/conf/app.conf.php
-
-
+RUN sed -i "s#\"DBServer\", \"localhost\"#\"DBServer\", \"$DB_HOST\"#g" /var/www/html/conf/app.conf.php
+RUN sed -i "s#DEVELOPMENT\", true#DEVELOPMENT\", false#g" /var/www/html/conf/app.conf.php
+RUN sed -i "s#DEBUG\", true#DEBUG\", false#g" /var/www/html/conf/app.conf.php

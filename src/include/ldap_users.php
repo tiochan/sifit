@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Anna Ribas (ana.ribas@upcnet.es)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -35,8 +36,9 @@
  *
  */
 
-function ldap_get_all_users_info($cn_filter) {
-	$users= Array();
+function ldap_get_all_users_info($cn_filter)
+{
+	$users = array();
 
 	// Search user department via LDAP
 	$ds = ldap_connect(ldapServer) or die("ERROR: Can't connect to LDAP server\n");			// Connect to ldap server
@@ -44,13 +46,13 @@ function ldap_get_all_users_info($cn_filter) {
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-	$bn=ldapBindUser. ",". ldapUserBaseDn;
-	$ldapbind= @ldap_bind($ds, $bn, ldapBindPasswd);
+	$bn = ldapBindUser . "," . ldapUserBaseDn;
+	$ldapbind = @ldap_bind($ds, $bn, ldapBindPasswd);
 
 	if ($ldapbind) {
 
 		// Search department's people
-		$attr = array("sn","cn","unit");
+		$attr = array("sn", "cn", "unit");
 		$filter = "(&(cn=*" . $cn_filter . "*))";
 
 		$searchResult = @ldap_search($ds, ldapUserBaseDn, $filter, $attr);
@@ -58,24 +60,26 @@ function ldap_get_all_users_info($cn_filter) {
 		$info = ldap_get_entries($ds, $searchResult);
 
 		//Now, to display the results we want:
-		foreach($info as $user) {
+		foreach ($info as $user) {
 
-			$users[]= $user;
+			$users[] = $user;
 		}
 	}
 
 	return $users;
 }
 
-function ldap_search_user_by_filter($username, $filter) {
+function ldap_search_user_by_filter($username, $filter)
+{
 
-	$user= ldap_search_users_by_group($filter);
+	$user = ldap_search_users_by_group($filter);
 	return in_array($username, $user);
 }
 
-function ldap_search_users($cn_filter) {
+function ldap_search_users($cn_filter)
+{
 
-	$users= Array();
+	$users = array();
 
 	// Search user department via LDAP
 	$ds = ldap_connect(ldapServer) or die("ERROR: Can't connect to LDAP server\n");			// Connect to ldap server
@@ -83,13 +87,13 @@ function ldap_search_users($cn_filter) {
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-	$bn=ldapBindUser. ",". ldapUserBaseDn;
-	$ldapbind= @ldap_bind($ds, $bn, ldapBindPasswd);
+	$bn = ldapBindUser . "," . ldapUserBaseDn;
+	$ldapbind = @ldap_bind($ds, $bn, ldapBindPasswd);
 
 	if ($ldapbind) {
 
 		// Search department's people
-		$attr = array("sn","cn","unit");
+		$attr = array("sn", "cn", "unit");
 		$filter = "(&(cn=*" . $cn_filter . "*))";
 
 		$searchResult = @ldap_search($ds, ldapUserBaseDn, $filter, $attr);
@@ -97,21 +101,22 @@ function ldap_search_users($cn_filter) {
 		$info = ldap_get_entries($ds, $searchResult);
 
 		//Now, to display the results we want:
-		foreach($info as $user) {
+		foreach ($info as $user) {
 
-			$cn= $user["cn"][0];
-			$users[$cn]= array();
+			$cn = $user["cn"][0];
+			$users[$cn] = array();
 
-			$users[$cn]["cn"]= $cn;
-			$users[$cn]["sn"]= $user["sn"][0];
-			$users[$cn]["unit"]= $user["unit"][0];
+			$users[$cn]["cn"] = $cn;
+			$users[$cn]["sn"] = $user["sn"][0];
+			$users[$cn]["unit"] = $user["unit"][0];
 		}
 	}
 
 	return $users;
 }
 
-function ldap_search_user_value($username, $attribute) {
+function ldap_search_user_value($username, $attribute)
+{
 
 	// Search LDAP user
 	$ds = ldap_connect(ldapServer) or die("ERROR: Can't connect to LDAP server\n");			// Connect to ldap server
@@ -119,8 +124,8 @@ function ldap_search_user_value($username, $attribute) {
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-	$bn=ldapBindUser. ",". ldapUserBaseDn;
-	$ldapbind= @ldap_bind($ds, $bn, ldapBindPasswd);
+	$bn = ldapBindUser . "," . ldapUserBaseDn;
+	$ldapbind = @ldap_bind($ds, $bn, ldapBindPasswd);
 
 	if ($ldapbind) {
 		// Search person
@@ -138,9 +143,10 @@ function ldap_search_user_value($username, $attribute) {
 	return NULL;
 }
 
-function ldap_search_users_by_group($filter) {
+function ldap_search_users_by_group($filter)
+{
 
-	$users= Array();
+	$users = array();
 
 	// Search user department via LDAP
 	$ds = ldap_connect(ldapServer) or die("ERROR: Can't connect to LDAP server\n");			// Connect to ldap server
@@ -148,8 +154,8 @@ function ldap_search_users_by_group($filter) {
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-	$bn=ldapBindUser. ",". ldapUserBaseDn;
-	$ldapbind= @ldap_bind($ds, $bn, ldapBindPasswd);
+	$bn = ldapBindUser . "," . ldapUserBaseDn;
+	$ldapbind = @ldap_bind($ds, $bn, ldapBindPasswd);
 
 
 	if ($ldapbind) {
@@ -160,27 +166,27 @@ function ldap_search_users_by_group($filter) {
 		$info = ldap_get_entries($ds, $searchResult);
 
 		//Now, to display the results we want:
-		$k= 0;
-		for ($i=0; $i<$info["count"]; $i++) {
-			for ($j=0; $j<$info[$i]["member"]["count"]; $j++) {
-				$users[$k]= $info[$i]["member"][$j];
+		$k = 0;
+		for ($i = 0; $i < $info["count"]; $i++) {
+			for ($j = 0; $j < $info[$i]["member"]["count"]; $j++) {
+				$users[$k] = $info[$i]["member"][$j];
 				$users[$k] = str_replace("cn=", "", $users[$k]);
 				$users[$k] = str_replace(",ou=users,dc=upc,dc=edu", "", $users[$k]);
 				$k++;
 			}
 		}
 		sort($users);
-
 	}
 
 	return $users;
 }
 
-function ldap_search_users_by_department($username, $typology='PAS') {
+function ldap_search_users_by_department($username, $typology = 'PAS')
+{
 
 	global $USER_DOMAIN_NAME;
 
-	$users= Array();
+	$users = array();
 
 	// Search user department via LDAP
 	$ds = ldap_connect(ldapServer) or die("ERROR: Can't connect to LDAP server\n");			// Connect to ldap server
@@ -188,8 +194,8 @@ function ldap_search_users_by_department($username, $typology='PAS') {
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-	$bn=ldapBindUser. ",". ldapUserBaseDn;
-	$ldapbind= @ldap_bind($ds, $bn, ldapBindPasswd);
+	$bn = ldapBindUser . "," . ldapUserBaseDn;
+	$ldapbind = @ldap_bind($ds, $bn, ldapBindPasswd);
 
 	if ($ldapbind) {
 
@@ -202,8 +208,8 @@ function ldap_search_users_by_department($username, $typology='PAS') {
 		ldap_sort($ds, $searchResult, "cn");
 		$info = ldap_get_entries($ds, $searchResult);
 		//Now, to display the results we want:
-		for ($i=0; $i<$info["count"]; $i++) {
-			$users[$i]= $info[$i]["cn"][0];
+		for ($i = 0; $i < $info["count"]; $i++) {
+			$users[$i] = $info[$i]["cn"][0];
 		}
 	}
 

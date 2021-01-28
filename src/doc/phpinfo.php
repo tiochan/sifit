@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * For: Politechnical University of Catalonia (UPC), Spain.
@@ -8,8 +9,8 @@
  * Main page.
  */
 
-$AUTH_REQUIRED=true;
-$AUTH_LVL=100;
+$AUTH_REQUIRED = true;
+$AUTH_LVL = 100;
 
 include_once "../include/init.inc.php";
 include_once "../include/menu.inc.php";

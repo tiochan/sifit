@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Sebastian Gomez (tiochan@gmail.com)
  * @package sifit
@@ -11,16 +12,18 @@
 include_once INC_DIR . "/reports/tags/tag_element.class.php";
 
 
-class tag_system_command extends tag_element {
+class tag_system_command extends tag_element
+{
 
-	protected $show_connection= false;
+	protected $show_connection = false;
 
 
-	public function get_value() {
+	public function get_value()
+	{
 
 		$this->replace_parameters();
 
-		$var= $this->value;
+		$var = $this->value;
 
 		return `$var`;
 		/*
@@ -31,7 +34,8 @@ class tag_system_command extends tag_element {
 		}*/
 	}
 
-	protected function change_field_properties(&$field) {
-		$field->alias="System command";
+	protected function change_field_properties(&$field)
+	{
+		$field->alias = "System command";
 	}
 }

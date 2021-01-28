@@ -16,4 +16,3 @@
 define("DISCOVERER_ENABLED",true);
 define("DISCOVERER_DIR",SYSHOME . "/plugins/discoverer");
 define("DISCOVERER_WEB_DIR", HOME . "/plugins/discoverer");
-?>

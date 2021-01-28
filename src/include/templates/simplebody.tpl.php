@@ -7,4 +7,5 @@
 	Be careful, changing this file will change the global page design.
 */
 ?>
+
 <body style="background-color: '#444444';" text="#000000">
