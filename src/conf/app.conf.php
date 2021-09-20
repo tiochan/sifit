@@ -33,7 +33,7 @@
  *
  ******************************************************************************/
 
-define("HOME", "/sifit");                                         // EDIT
+define("HOME", "");                                               // EDIT
 define("SERVER_URL", "http://localhost");                         // EDIT
 
 define("ADM_EMAIL", "Sebastian Gomez <tiochan@gmail.com>");       // EDIT

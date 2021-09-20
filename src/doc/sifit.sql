@@ -326,7 +326,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3',0,'Administrador','',1,'sebastian.gomez@upcnet.es',0,1,'2018-06-04 12:25:57','en',0),(2,'sebastian.gomez','7cd17ddaddad22a51592896fb640c20c',0,'Sebastian','',2,'sebastian.gomez@schibsted.com',3,1,'2018-12-14 12:56:01','en',0);
+INSERT INTO `users` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3',0,'Administrador','',1,'tiochan@gmail.com',0,1,'2018-06-04 12:25:57','en',0),(2,'sebastian.gomez','7cd17ddaddad22a51592896fb640c20c',0,'Sebastian','',2,'tiochan@gmail.com',3,1,'2018-12-14 12:56:01','en',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -3,7 +3,7 @@
 # https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-getting-started.html
 #
 
-APP_DIR="../php/sifit"
+APP_DIR="../../src"
 PASS="password"
 
 docker pull mysql/mysql-server:5.7
